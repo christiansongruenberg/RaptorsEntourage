@@ -105,11 +105,12 @@ setInterval(function(){
     require('./tests/articlePolling.js')();
 }, 10000);
 
-if (env == 'production') {
+/*if (env == 'production') {
     setInterval(function () {
         require('./tests/instagramPolling.js')();
     }, 30000);
-}
+}*/
+
 app.set(function(req,res,next){
    res.set("Cache-Control", "no-cache");
     res.set("Content-Type", "text/plain; charset=utf-8");

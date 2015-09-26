@@ -1,0 +1,23 @@
+{
+  "name": "RaptorsEntourage",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/christiansongruenberg/RaptorsEntourage",
+  "authors": [
+    "christiansongruenberg <christianson.gruenberg@gmail.com>"
+  ],
+  "directory": "public/bower_components",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular-animate": "~1.4.5",
+    "angular-route": "~1.4.6",
+    "angular-sanitize": "~1.4.6",
+    "angular-ui": "~0.4.0",
+    "Buttons": "~2.0.0",
+    "buttons.css": "buttons#~1.0.4",
+    "ngInfiniteScroll": "nginfinitescroll#~1.2.1"
+  }
+}

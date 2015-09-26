@@ -1,0 +1,17 @@
+<div class="animated fadeIn col-md-10" id="articles">
+    <% articles.forEach(function(article) {%>
+    <div class="article col-xs-12">
+        <p class="article-posted-at"><b>Posted at:</b> <a class="article-posted-link" href="<%= article.feed.link%>" target="_blank"><%= article.feed.name%></a></p>
+        <h1 class="article-title"><a class="article-title-link" href="<%= article.link%>" target="_blank"><%= article.title%></a></h1>
+
+        <%if(article.author){%>
+        <p class="article-author"><b>Author:</b> <%= article.author%></p>
+        <%}%>
+
+        <div class="article-body">
+            <%- article.content%>
+        </div>
+        <h6 class="article-published"><%= article.published%></h6>
+    </div>
+    <%})%>
+</div>

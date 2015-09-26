@@ -1,0 +1,50 @@
+<div class="container main-body">
+    <div class="navigation col-md-2 col-xs-12">
+        <nav-buttons></nav-buttons>
+        <br/>
+        <div class="panel-group col-md-12 col-xs-12 filter">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" data-target="#collapse1" class="filter-title collapsed">
+                        <a data-toggle="collapse" data-target="#collapse1" class="filter-title collapsed">Filter Players</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="(name,info) in players">
+                            <input type="checkbox"
+                                   id="{{name}}"
+                                   class="css-checkbox"
+                                   value="name"
+                                   ng-checked="showingPlayers.indexOf(info.twitter_ID) > -1"
+                                   ng-click="toggleSelection(info.twitter_ID)"
+                                    />
+                            <label for="{{name}}" name="checkbox7_lbl" class="css-label lite-red-check"></label>{{name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="animated fadeIn col-md-10" id="tweets" infinite-scroll="getMoreTweets()" infinite-scroll-distance="1">
+
+        <div ng-repeat="tweet in tweets | filter:twitterFilter" class="media">
+            <div class="media-left media-top">
+                <img class="media-object" src="{{tweet.tweetObject.user.profile_image_url}}"/>
+            </div>
+            <div class="media-body">
+                <h3 class="tweet-name media-heading">{{tweet.tweetObject.user.screen_name}}</h3>
+                <p class="tweet-text">{{tweet.tweetObject.text}}</p>
+
+            </div>
+            <div ng-if="tweet.tweetObject.extended_entities" class="tweet-images">
+                <img ng-repeat="media in tweet.tweetObject.extended_entities.media" src="{{media.media_url}}"/>
+            </div>
+            <h6 class="tweet-date">{{tweet.created_at}}</h6>
+        </div>
+        <div class="col-md-12">
+            <button ng-click="getMoreTweets()" class="button button-royal button-circle button-giant" id="load-more-button">Load More</button>
+        </div>
+    </div>
+</div>

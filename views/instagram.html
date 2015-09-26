@@ -1,0 +1,10 @@
+<div class="animated fadeIn col-md-10" id="instagrams">
+    <% instagrams.forEach(function(instagram) {%>
+    <div class="col-md-4 col-xs-12">
+        <div id="instacontent">
+            <img class="instagram-picture" src="<%= instagram.instagramObject.images.standard_resolution.url%> "/>
+            <span class="instagram-username">@<%= instagram.instagramObject.user.username%> </span>
+        </div>
+    </div>
+    <%})%>
+</div>

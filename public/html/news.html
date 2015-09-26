@@ -1,0 +1,47 @@
+<div class="container main-body">
+    <div class="navigation col-md-2 col-xs-12">
+        <nav-buttons></nav-buttons>
+        <br/>
+        <div class="panel-group col-md-12 col-xs-12 filter">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" data-target="#collapse1" class="filter-title collapsed">
+                        <a data-toggle="collapse" data-target="#collapse1" class="filter-title collapsed">Filter News Outlets</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="(name,link) in outlets">
+                            <input type="checkbox"
+                                   id="{{name}}"
+                                   class="css-checkbox"
+                                   value="name"
+                                   ng-checked="showingOutlets.indexOf(link) > -1"
+                                   ng-click="toggleSelection(link)"
+                                    />
+                            <label for="{{name}}" name="checkbox7_lbl" class="css-label lite-red-check"></label>{{name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="articles" class="animated fadeIn col-md-10" id="articles" infinite-scroll="getMoreArticles()" infinite-scroll-distance="2">
+        <div ng-repeat="article in articles | filter:articleFilter" class="article col-xs-12">
+
+            <p class="article-posted-at"><b>Posted at:</b> <a class="article-posted-link" href="{{article.feed.link}}" target="_blank">{{article.feed.name}}</a></p>
+            <h1 class="article-title"><a class="article-title-link" href="{{article.link}}" target="_blank">{{article.title}}</a></h1>
+
+            <p ng-if="article.author" class="article-author"><b>Author:</b> {{article.author}}</p>
+
+            <div class="article-body" ng-bind-html="article.content"></div>
+
+            <h6 class="article-published">{{article.published}}</h6>
+        </div>
+        <div class="col-md-12">
+            <button ng-click="getMoreArticles()" class="button button-royal button-circle button-giant" id="load-more-button">Load More</button>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,46 @@
+<div class="container main-body">
+    <div class="navigation col-md-2 col-xs-12">
+        <nav-buttons></nav-buttons>
+        <br/>
+        <div class="panel-group col-md-12 col-xs-12 filter">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" data-target="#collapse1" class="filter-title collapsed">
+                        <a data-toggle="collapse" data-target="#collapse1" class="filter-title collapsed">Filter Players</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="(name,info) in players">
+                            <input type="checkbox"
+                                   id="{{name}}"
+                                   class="css-checkbox"
+                                   value="name"
+                                   ng-checked="showingPlayers.indexOf(info.instagram_ID) > -1"
+                                   ng-click="toggleSelection(info.instagram_ID)"
+                                    />
+                            <label for="{{name}}" name="checkbox7_lbl" class="css-label lite-red-check"></label>{{name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="animated fadeIn col-md-10" id="instagrams" infinite-scroll="getMoreGrams()" infinite-scroll-distance="1">
+        <div ng-repeat="instagram in instagrams | filter: instagramFilter" class="col-md-4 col-xs-12">
+            <div id="instacontent">
+                <div class="insta-caption">{{instagram.instagramObject.caption.text}}</div>
+                <img ng-if="instagram.instagramObject.type == 'image'" class="instagram-picture" src="{{instagram.instagramObject.images.standard_resolution.url}}"/>
+                <video ng-if="instagram.instagramObject.type == 'video'" class="instagram-video">
+                    <source ng-src="{{instagram.instagramObject.videos.standard_resolution.url}}" type="video/mp4"/>
+                </video>
+                <img ng-if="instagram.instagramObject.type == 'video'" src="/images/play_button.png" class="play-button" alt=""/>
+                <div class="instagram-username">@{{instagram.instagramObject.user.username}}</div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button ng-click="getMoreGrams()" class="button button-royal button-circle button-giant" id="load-more-button">Load More</button>
+        </div>
+    </div>
+</div>

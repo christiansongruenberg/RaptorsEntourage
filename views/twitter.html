@@ -1,0 +1,22 @@
+<div class="animated fadeIn col-md-10" id="tweets">
+    <% tweets.forEach(function(tweet) { %>
+    <div class="media">
+        <div class="media-left media-top">
+            <img class="media-object" src="<%= tweet.profile_image_url%> "/>
+        </div>
+
+        <div class="media-body">
+            <h3 class="tweet-name media-heading"><%= tweet.screen_name%></h3>
+            <p class="tweet-text"><%= tweet.tweet%></p>
+            <h6 class="tweet-date"><%= tweet.created_at %></h6>
+        </div>
+        <%if(tweet.extended_entities){%>
+            <div class="tweet-images">
+            <% tweet.extended_entities.media.forEach(function(media) { %>
+                <img src="<%= media.media_url%> "/>
+            <%})%>
+            </div>
+        <%}%>
+    </div>
+    <%})%>
+</div>

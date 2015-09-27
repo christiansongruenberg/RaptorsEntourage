@@ -8,10 +8,11 @@ var util = require('util'),
 
 InstagramModel = require('../models/instagram_model.js');
 
+var igClientId = process.env.igClientId || config.instagram.client_id,
+    igClientSecret = process.env.igClientSecret || config.instagram.client_secret;
 
-
-ig.use({client_id: config.instagram.client_id,
-    client_secret: config.instagram.client_secret});
+ig.use({client_id: igClientId ,
+    client_secret: igClientSecret});
 
 module.exports = function() {
     console.log("instagram polling...");

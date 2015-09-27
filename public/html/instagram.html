@@ -31,11 +31,11 @@
         <div ng-repeat="instagram in instagrams | filter: instagramFilter" class="col-md-4 col-xs-12">
             <div id="instacontent">
                 <div class="insta-caption">{{instagram.instagramObject.caption.text}}</div>
-                <img ng-if="instagram.instagramObject.type == 'image'" class="instagram-picture" src="{{instagram.instagramObject.images.standard_resolution.url}}"/>
+                <img ng-if="instagram.instagramObject.type == 'image'" class="instagram-picture" ng-src="{{instagram.instagramObject.images.standard_resolution.url}}"/>
                 <video ng-if="instagram.instagramObject.type == 'video'" class="instagram-video">
                     <source ng-src="{{instagram.instagramObject.videos.standard_resolution.url}}" type="video/mp4"/>
                 </video>
-                <img ng-if="instagram.instagramObject.type == 'video'" src="/images/play_button.png" class="play-button" alt=""/>
+                <img ng-if="instagram.instagramObject.type == 'video'" ng-src="/images/play_button.png" class="play-button" alt=""/>
                 <div class="instagram-username">@{{instagram.instagramObject.user.username}}</div>
             </div>
         </div>

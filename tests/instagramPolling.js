@@ -8,8 +8,14 @@ var util = require('util'),
 
 InstagramModel = require('../models/instagram_model.js');
 
+console.log("ig ID is:  " + process.env.igClientId);
+console.log("ig Secret is:  " + process.env.igClientSecret);
+console.log("mongopassword is: " + mongopassword);
+
 var igClientId = process.env.igClientId || config.instagram.client_id,
     igClientSecret = process.env.igClientSecret || config.instagram.client_secret;
+
+
 
 ig.use({client_id: igClientId ,
     client_secret: igClientSecret});

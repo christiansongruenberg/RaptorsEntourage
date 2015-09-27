@@ -103,7 +103,7 @@ console.log(process.env.NODE_ENV);
 
 setInterval(function(){
     require('./tests/articlePolling.js')();
-}, 10000);
+}, 20000);
 
 if (env == 'production') {
     setInterval(function () {

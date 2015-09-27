@@ -6,19 +6,24 @@ var feed = require('feed-read'),
     RssModel = require('../models/rssarticles_model.js');
 
 function storeArticle(article){
-    var rss = {
-        title: article.title,
-        author: article.author,
-        link: article.link,
-        content: article.content,
-        published: article.published,
-        feed: article.feed
-    };
 
-    RssModel.findOneAndUpdate({"title": article.title} ,rss,{upsert: true}, function(err,doc){
-        if(err) console.log(err);
-/*        console.log("Article Upserted");*/
-    });
+    if (article.title == "Get Your Latest NBA News From RealGM's Basketball Wiretap"){
+
+    }else{
+        var rss = {
+            title: article.title,
+            author: article.author,
+            link: article.link,
+            content: article.content,
+            published: article.published,
+            feed: article.feed
+        };
+
+        RssModel.findOneAndUpdate({"title": article.title} ,rss,{upsert: true}, function(err,doc){
+            if(err) console.log(err);
+            /*        console.log("Article Upserted");*/
+        });
+    }
 };
 
 module.exports = function() {

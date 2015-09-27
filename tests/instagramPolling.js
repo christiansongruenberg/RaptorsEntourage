@@ -3,14 +3,16 @@
  */
 var util = require('util'),
     ig = require('instagram-node').instagram(),
-    players = require('../player_info.js'),
-    config = require('../config.js');
+    players = require('../player_info.js');
 
+if (fs.existsSync('config.js')){
+    var config = require('./config.js');
+}
 InstagramModel = require('../models/instagram_model.js');
 
-console.log("ig ID is:  " + process.env.igClientId);
+/*console.log("ig ID is:  " + process.env.igClientId);
 console.log("ig Secret is:  " + process.env.igClientSecret);
-console.log("mongopassword is: " + mongopassword);
+console.log("mongopassword is: " + mongopassword);*/
 
 var igClientId = process.env.igClientId || config.instagram.client_id,
     igClientSecret = process.env.igClientSecret || config.instagram.client_secret;

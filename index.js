@@ -19,7 +19,7 @@ var app = express()
     , io = require("socket.io").listen(http);
 
 if (fs.existsSync('config.js')){
-    config = require('./config.js');
+    var config = require('./config.js');
 }
 
 var mongousername = process.env.mongousername || config.mongolab.username,

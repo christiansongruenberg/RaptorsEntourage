@@ -1,7 +1,7 @@
 /**
  * Created by Christianson on 14/09/2015.
  */
-var rapsApp = angular.module('raptorsEntourageApp', ['ngRoute', 'ngSanitize', 'infinite-scroll']);
+var rapsApp = angular.module('raptorsEntourageApp', ['ngRoute', 'ngSanitize', 'infinite-scroll', 'pusher-angular']);
 
 rapsApp.config(function($routeProvider){
     $routeProvider

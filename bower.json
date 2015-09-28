@@ -13,13 +13,12 @@
   "license": "MIT",
   "dependencies": {
     "angular-animate": "~1.4.5",
-    "angular-pusher": "~0.0.14",
     "angular-route": "~1.4.6",
     "angular-sanitize": "~1.4.6",
     "angular-ui": "~0.4.0",
     "Buttons": "~2.0.0",
     "buttons.css": "buttons#~1.0.4",
-    "ngInfiniteScroll": "nginfinitescroll#~1.2.1",
-    "pusher-angular": "~0.1.7"
+    "ngInfiniteScroll": "nginfinitescroll#~1.2.1"
+    /*"pusher-angular": "~0.1.7"*/
   }
 }

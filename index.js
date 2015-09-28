@@ -101,7 +101,7 @@ console.log(process.env.NODE_ENV);
     });
 });*/
 
-setInterval(function(){
+/*setInterval(function(){
     require('./tests/articlePolling.js')();
 }, 20000);
 
@@ -109,7 +109,7 @@ if (env == 'production') {
     setInterval(function () {
         require('./tests/instagramPolling.js')();
     }, 30000);
-}
+}*/
 
 app.set(function(req,res,next){
    res.set("Cache-Control", "no-cache");

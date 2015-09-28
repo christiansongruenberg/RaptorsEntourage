@@ -16,7 +16,11 @@ rapsApp.config(function($routeProvider){
         .when('/instagram',{
             templateUrl: 'html/instagram.html',
             controller: 'instagramController'
-        });
+        })
+        .when('/gameChat', {
+            templateUrl: 'html/gameChat.html',
+            controller: 'chatController'
+        });;
 });
 
 rapsApp.controller('twitterController', ['$scope','$location','$http', '$log','$timeout', function($scope, $location, $http, $log, $timeout){

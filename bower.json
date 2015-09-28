@@ -19,6 +19,5 @@
     "Buttons": "~2.0.0",
     "buttons.css": "buttons#~1.0.4",
     "ngInfiniteScroll": "nginfinitescroll#~1.2.1"
-    /*"pusher-angular": "~0.1.7"*/
   }
 }

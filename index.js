@@ -12,10 +12,7 @@ var express = require('express'),
     util = require('util');
     morgan = require('morgan');
     favicon = require('serve-favicon'),
-    //bodyParser = require('body-parser'),
     mongoose = require('mongoose');
-
-
 
 var app = express()
     , http = require("http").createServer(app)
@@ -25,17 +22,12 @@ if (fs.existsSync('config.js')){
     var config = require('./config.js');
 }
 
-//Set configuration variables
 var mongousername = process.env.mongousername || config.mongolab.username,
     mongopassword = process.env.mongopassword || config.mongolab.password,
     twitterconsumerkey = process.env.twitterconsumerkey || config.twitter.consumer_key,
     twitterconsumersecret = process.env.twitterconsumersecret || config.twitter.consumer_secret,
     twitteraccesskey = process.env.twitteraccesskey || config.twitter.access_token_key,
-    twitteraccesssecret = process.env.twitteraccesssecret || config.twitter.access_token_secret,
-    pusherAppId = process.env.pusherAppId || config.pusher.app_id,
-    pusherKey = process.env.pusherKey || config.pusher.key,
-    pusherSecret = process.env.pusherSecret || config.pusher.secret;
-
+    twitteraccesssecret = process.env.twitteraccesssecret || config.twitter.access_token_secret;
 
 mongoose.connect('mongodb://' + mongousername + ':' + mongopassword + '@ds035673.mongolab.com:35673/raptors');
 
@@ -48,20 +40,6 @@ var TweetModel = require('./models/models.js'),
     });
 
 
-//Set up pusher server
-var Pusher = require('pusher');
-var pusher = new Pusher({
-    appId: pusherAppId,
-    key: pusherKey,
-    secret: pusherSecret,
-    encrypted: true
-});
-
-/*setInterval(function(){
-    pusher.trigger('test_channel', 'my_event', {
-        "message": "Hello World!"
-    });
-}, 1000);*/
 
 /*app.use(morgan('combined'));*/
 
@@ -98,7 +76,7 @@ function upsertTweet(tweet){
 }
 
 var env = process.env.NODE_ENV || 'development';
-
+console.log(process.env.NODE_ENV);
 /*twitter.stream('statuses/filter', {follow: followList}, function(stream){
 
     stream.on('data', function(data){
@@ -127,10 +105,11 @@ setInterval(function(){
     require('./tests/articlePolling.js')();
 }, 20000);
 
-setInterval(function () {
-    require('./tests/instagramPolling.js')();
-}, 30000);
-
+if (env == 'production') {
+    setInterval(function () {
+        require('./tests/instagramPolling.js')();
+    }, 30000);
+}
 
 app.set(function(req,res,next){
    res.set("Cache-Control", "no-cache");
@@ -143,8 +122,7 @@ app.set('views', path.join(__dirname,"views"));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'public')));
-/*app.use(bodyParser.json());*/
-app.use(router.routerFunction(pusher));
+app.use(router.routerFunction());
 
 http.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));

@@ -1,7 +1,7 @@
 /**
  * Created by Christianson on 14/09/2015.
  */
-var rapsApp = angular.module('raptorsEntourageApp', ['ngRoute', 'ngSanitize', 'infinite-scroll', 'pusher-angular']);
+var rapsApp = angular.module('raptorsEntourageApp', ['ngRoute', 'ngSanitize', 'infinite-scroll']);
 
 rapsApp.config(function($routeProvider){
     $routeProvider
@@ -16,10 +16,6 @@ rapsApp.config(function($routeProvider){
         .when('/instagram',{
             templateUrl: 'html/instagram.html',
             controller: 'instagramController'
-        })
-        .when('/gameChat', {
-            templateUrl: 'html/gameChat.html',
-            controller: 'chatController'
         });
 });
 
@@ -316,34 +312,11 @@ rapsApp.controller('instagramController', ['$scope','$location','$http','$sce','
     };
 }]);
 
-var client = new Pusher('e007ecf99bcbd70051de');
-
-rapsApp.controller('chatController', ['$scope','$pusher','$log','$http', function($scope, $pusher, $log, $http){
-
-
-    var pusher = $pusher(client);
-    pusher.subscribe('test_channel');
-    pusher.subscribe('second');
-    $scope.username = 'CGruenberg';
-
-    pusher.bind('my_event', function(data){
-        angular.element($('.chat-messages')).append('<p>'+ $scope.username + ': ' + data.message + '</p>');
-        //$log.log(angular.element($('.chat-box')));
-    });
-
-    $scope.sendMessage = function(){
-        $http.post('/messageSent',{message: $scope.message});
-        $scope.message = '';
-    }
-
-}]);
-
 rapsApp.directive('navButtons', function(){
    return{
        templateUrl: '/html/templates/navButtons.html'
    }
 });
-
 
 /*
 rapsApp.directive('showonhoverparent', function(){

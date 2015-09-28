@@ -143,7 +143,7 @@ app.set('views', path.join(__dirname,"views"));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json());
+/*app.use(bodyParser.json());*/
 app.use(router.routerFunction(pusher));
 
 http.listen(app.get('port'), function() {

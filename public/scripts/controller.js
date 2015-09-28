@@ -1,7 +1,7 @@
 /**
  * Created by Christianson on 14/09/2015.
  */
-var rapsApp = angular.module('raptorsEntourageApp', ['ngRoute', 'ngSanitize', 'infinite-scroll']);
+var rapsApp = angular.module('raptorsEntourageApp', ['ngRoute', 'ngSanitize', 'infinite-scroll', 'pusher-angular']);
 
 rapsApp.config(function($routeProvider){
     $routeProvider
@@ -16,6 +16,10 @@ rapsApp.config(function($routeProvider){
         .when('/instagram',{
             templateUrl: 'html/instagram.html',
             controller: 'instagramController'
+        })
+        .when('/gameChat', {
+            templateUrl: 'html/gameChat.html',
+            controller: 'chatController'
         });
 });
 
@@ -312,11 +316,30 @@ rapsApp.controller('instagramController', ['$scope','$location','$http','$sce','
     };
 }]);
 
+rapsApp.controller('chatController', ['$scope','$pusher','$log', function($scope, $pusher, $log){
+
+    var client = new Pusher('e007ecf99bcbd70051de');
+    var pusher = $pusher(client);
+    pusher.subscribe('test_channel');
+    pusher.subscribe('second');
+
+    $scope.countmessage = 1;
+    pusher.bind('my_event', function(data){
+       $scope.message = data.message;
+        angular.element($('.chat-messages')).append('<p>' + data.message + $scope.countmessage + '</p>');
+        angular.element($('.chat-box')).scrollTop(550);
+        $log.log(data.message);
+        $scope.countmessage += 1;
+    });
+
+}]);
+
 rapsApp.directive('navButtons', function(){
    return{
        templateUrl: '/html/templates/navButtons.html'
    }
 });
+
 
 /*
 rapsApp.directive('showonhoverparent', function(){

@@ -13,7 +13,9 @@ exports.routerFunction = function(){
     var amountOfTweets = 10;
 
     router.get('/getTweets', function(req,res,next){
+        console.log("get tweets called");
         TweetModel.find({},null,{limit:amountOfTweets, sort: {created_at: -1}}, function(err, tweets){
+            if(err) throw(err);
             res.json({"tweets": tweets});
         });
     });

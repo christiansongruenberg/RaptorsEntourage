@@ -12,7 +12,7 @@ var express = require('express'),
     util = require('util');
     morgan = require('morgan');
     favicon = require('serve-favicon'),
-    bodyParser = require('body-parser'),
+    //bodyParser = require('body-parser'),
     mongoose = require('mongoose');
 
 

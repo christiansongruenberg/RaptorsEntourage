@@ -78,9 +78,9 @@ exports.routerFunction = function(pusher){
     });
 
     router.post('/messageSent', function(req,res,next){
-        console.log(req.body);
+        //console.log(req.body);
         pusher.trigger('test_channel', 'my_event', {
-            "message": req.body.message
+            "message": 'sent message' //req.body.message
         });
     });
 

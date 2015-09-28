@@ -27,7 +27,10 @@ var mongousername = process.env.mongousername || config.mongolab.username,
     twitterconsumerkey = process.env.twitterconsumerkey || config.twitter.consumer_key,
     twitterconsumersecret = process.env.twitterconsumersecret || config.twitter.consumer_secret,
     twitteraccesskey = process.env.twitteraccesskey || config.twitter.access_token_key,
-    twitteraccesssecret = process.env.twitteraccesssecret || config.twitter.access_token_secret;
+    twitteraccesssecret = process.env.twitteraccesssecret || config.twitter.access_token_secret
+    pusherAppId = process.env.pusherAppId || config.pusher.app_id,
+    pusherKey = process.env.pusherKey || config.pusher.key,
+    pusherSecret = process.env.pusherSecret || config.pusher.secret;
 
 mongoose.connect('mongodb://' + mongousername + ':' + mongopassword + '@ds035673.mongolab.com:35673/raptors');
 
@@ -39,7 +42,12 @@ var TweetModel = require('./models/models.js'),
         access_token_secret:twitteraccesssecret
     });
 
-
+var pusher = new Pusher({
+    appId: pusherAppId,
+    key: pusherKey,
+    secret: pusherSecret,
+    encrypted: true
+});
 
 /*app.use(morgan('combined'));*/
 

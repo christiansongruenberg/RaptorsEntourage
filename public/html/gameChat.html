@@ -9,9 +9,9 @@
 
             </div>
         </div>
-        <div class="send-message-box">
-            <input class="col-xs-10 message-input" placeholder="Type message here..." type="text"/>
-            <button class="col-xs-2 send-message-button">Send</button>
-        </div>
+        <form ng-submit="sendMessage()" class="send-message-form">
+            <input ng-model="message" class="col-xs-10 message-input" placeholder="Type message here..." type="text"/>
+            <input type="submit" id="submit" value="Submit" class="col-xs-2 send-message-button"/>
+        </form>
     </div>
 </div>

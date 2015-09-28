@@ -12,6 +12,7 @@ var express = require('express'),
     util = require('util');
     morgan = require('morgan');
     favicon = require('serve-favicon'),
+    bodyParser = require('body-parser'),
     mongoose = require('mongoose');
 
 
@@ -56,11 +57,11 @@ var pusher = new Pusher({
     encrypted: true
 });
 
-setInterval(function(){
+/*setInterval(function(){
     pusher.trigger('test_channel', 'my_event', {
         "message": "Hello World!"
     });
-}, 3000);
+}, 1000);*/
 
 /*app.use(morgan('combined'));*/
 
@@ -142,7 +143,8 @@ app.set('views', path.join(__dirname,"views"));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(router.routerFunction());
+app.use(bodyParser.json());
+app.use(router.routerFunction(pusher));
 
 http.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));

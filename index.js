@@ -42,6 +42,8 @@ var TweetModel = require('./models/models.js'),
         access_token_secret:twitteraccesssecret
     });
 
+//Set up pusher server
+var Pusher = require('pusher');
 var pusher = new Pusher({
     appId: pusherAppId,
     key: pusherKey,

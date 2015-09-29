@@ -71,7 +71,6 @@ exports.routerFunction = function(pusher){
     router.get('/instagram', function(req,res,next){
         InstagramModel.find({}, null, {limit:21, sort: {created_time: -1}}, function(err,instagrams){
             res.render("instagram", {instagrams: instagrams});
-
         });
     });
 
@@ -81,6 +80,7 @@ exports.routerFunction = function(pusher){
             "message": req.body.message,
             "username": req.body.username
         });
+        res.end();
     });
 
     return router;

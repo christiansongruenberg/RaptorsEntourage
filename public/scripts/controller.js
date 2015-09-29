@@ -323,15 +323,15 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http', functio
     var pusher = $pusher(client);
     pusher.subscribe('test_channel');
     pusher.subscribe('second');
-    $scope.username = 'CGruenberg';
+    $scope.username = 'Random';
 
     pusher.bind('my_event', function(data){
-        angular.element($('.chat-messages')).append('<p>'+ $scope.username + ': ' + data.message + '</p>');
+        angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
         //$log.log(angular.element($('.chat-box')));
     });
 
     $scope.sendMessage = function(){
-        $http.post('/messageSent',{message: $scope.message});
+        $http.post('/messageSent',{message: $scope.message, username: $scope.username});
         $scope.message = '';
     }
 

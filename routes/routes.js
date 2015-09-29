@@ -76,6 +76,7 @@ exports.routerFunction = function(pusher){
     });
 
     router.post('/messageSent', function(req,res,next){
+        console.log("/messageSent Succesful");
         pusher.trigger('test_channel', 'my_event', {
             "message": req.body.message,
             "username": req.body.username

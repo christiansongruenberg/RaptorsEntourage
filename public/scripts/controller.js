@@ -318,23 +318,31 @@ rapsApp.controller('instagramController', ['$scope','$location','$http','$sce','
 
 var client = new Pusher('e007ecf99bcbd70051de');
 
-rapsApp.controller('chatController', ['$scope','$pusher','$log','$http', function($scope, $pusher, $log, $http){
-
-    var pusher = $pusher(client);
-    pusher.subscribe('test_channel');
-    pusher.subscribe('second');
-    $scope.username = 'Random';
-
-    pusher.bind('my_event', function(data){
+rapsApp.service('pusherService', ['$pusher','$log', function($pusher, $log) {
+    $log.log('pusherService called');
+    this.pusher = $pusher(client);
+    this.pusher.subscribe('test_channel');
+    this.pusher.bind('my_event', function(data){
         angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
         //$log.log(angular.element($('.chat-box')));
     });
+}]);
+
+rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','pusherService', function($scope, $pusher, $log, $http, pusherService){
+
+    $scope.username = 'Random';
+
+/*    pusherService.pusher.bind('my_event', function(data){
+        angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
+        //$log.log(angular.element($('.chat-box')));
+    });*/
 
     $scope.sendMessage = function(){
         $http.post('/messageSent',{message: $scope.message, username: $scope.username});
         $scope.message = '';
     }
 
+    $log.log($scope);
 }]);
 
 rapsApp.directive('navButtons', function(){

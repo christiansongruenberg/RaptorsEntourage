@@ -4,7 +4,7 @@ var router = require('express').Router(),
     InstagramModel = require('../models/instagram_model.js'),
     RssModel = require('../models/rssarticles_model.js');
 
-exports.routerFunction = function(){
+exports.routerFunction = function(pusher){
 
     router.get('/', function(req,res,next){
         res.render("index", {title: "Raptors Entourage"});
@@ -72,6 +72,13 @@ exports.routerFunction = function(){
         InstagramModel.find({}, null, {limit:21, sort: {created_time: -1}}, function(err,instagrams){
             res.render("instagram", {instagrams: instagrams});
 
+        });
+    });
+
+    router.post('/messageSent', function(req,res,next){
+        //console.log(req.body);
+        pusher.trigger('test_channel', 'my_event', {
+            "message": "hello!"
         });
     });
 

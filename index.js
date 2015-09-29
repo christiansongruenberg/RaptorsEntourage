@@ -3,15 +3,16 @@
  */
 var express = require('express'),
     twit = require('twitter'),
-    ig = require('instagram-node').instagram();
-    path = require('path');
-    fs = require('fs');
-    path = require('path');
+    ig = require('instagram-node').instagram(),
+    path = require('path'),
+    fs = require('fs'),
+    path = require('path'),
     players = require('./player_info.js'),
     router = require('./routes/routes'),
-    util = require('util');
-    morgan = require('morgan');
+    util = require('util'),
+    morgan = require('morgan'),
     favicon = require('serve-favicon'),
+    bodyParser = require('body-parser'),
     mongoose = require('mongoose');
 
 var app = express()
@@ -85,8 +86,6 @@ function upsertTweet(tweet){
     });
 }
 
-var env = process.env.NODE_ENV || 'development';
-console.log(process.env.NODE_ENV);
 /*twitter.stream('statuses/filter', {follow: followList}, function(stream){
 
     stream.on('data', function(data){
@@ -132,6 +131,7 @@ app.set('views', path.join(__dirname,"views"));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
 app.use(router.routerFunction(pusher));
 
 http.listen(app.get('port'), function() {

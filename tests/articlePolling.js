@@ -30,9 +30,11 @@ module.exports = function() {
     console.log("articles polling...");
     for (var outlet in newsOutlets) {
         feed(newsOutlets[outlet], function (err, articles) {
-            articles.forEach(function (article) {
-                storeArticle(article);
-            });
+            if(articles) {
+                articles.forEach(function (article) {
+                    storeArticle(article);
+                });
+            }
         });
     }
 };

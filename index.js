@@ -56,8 +56,9 @@ var pusher = new Pusher({
 
 io.on("connection", function(socket){
     console.log("connected...");
-    socket.on("myEvent", function(socket){
-        console.log('my event seen');
+    socket.on('messageSent', function(message){
+        io.emit('messageSent', message);
+        console.log(message.text);
     })
 });
 
@@ -110,15 +111,14 @@ function upsertTweet(tweet){
     });
 });*/
 
-/*setInterval(function(){
+setInterval(function(){
     require('./tests/articlePolling.js')();
 }, 20000);
 
-if (env == 'production') {
-    setInterval(function () {
-        require('./tests/instagramPolling.js')();
-    }, 30000);
-}*/
+setInterval(function () {
+    require('./tests/instagramPolling.js')();
+}, 30000);
+
 
 app.set(function(req,res,next){
    res.set("Cache-Control", "no-cache");

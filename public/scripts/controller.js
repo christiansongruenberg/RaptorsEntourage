@@ -321,7 +321,7 @@ var client = new Pusher('e007ecf99bcbd70051de');
 rapsApp.service('pusherService', ['$pusher','$log', function($pusher, $log) {
     $log.log('pusherService called');
     this.pusher = $pusher(client);
-    this.pusher.subscribe('test_channel');
+    this.pusher.subscribe('main_channel');
     this.pusher.bind('my_event', function(data){
         angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
         //$log.log(angular.element($('.chat-box')));
@@ -329,6 +329,17 @@ rapsApp.service('pusherService', ['$pusher','$log', function($pusher, $log) {
 }]);
 
 rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','pusherService', function($scope, $pusher, $log, $http, pusherService){
+    var socket = io.connect(document.domain + ":" + location.port);
+
+    socket.on('connect', function () {
+        sessionId = socket.io.engine.id;
+        console.log('Connected ' + sessionId);
+    });
+
+    socket.on('messageSent', function(message){
+        angular.element($('.chat-messages')).append('<p>'+ message.username + ': ' + message.text + '</p>');
+        $log.log(message);
+    });
 
     $scope.username = 'Random';
 
@@ -338,7 +349,8 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','pusherS
     });*/
 
     $scope.sendMessage = function(){
-        $http.post('/messageSent',{message: $scope.message, username: $scope.username});
+/*        $http.post('/messageSent',{message: $scope.message, username: $scope.username});*/
+        socket.emit('messageSent', {text: $scope.message, username: $scope.username});
         $scope.message = '';
     }
 

@@ -384,11 +384,13 @@ a:hover {
     bottom:0;
     height: 550px;
     background-color: white;
+/*    background: white url(http://www.transparenttextures.com/patterns/maze-white.png) repeat;*/
 }
 
 .chatbox {
     height: 95%;
     overflow: auto;
+    padding: 0;
 }
 
 .chat-messages {
@@ -405,4 +407,13 @@ a:hover {
     position: absolute;
     bottom: 0;
     right:0;
+    right:0;
+}
+
+#username-input {
+    width:100%;
+}
+
+#start-discussion {
+    width: 100%;
 }

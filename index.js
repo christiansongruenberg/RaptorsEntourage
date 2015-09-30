@@ -56,10 +56,24 @@ var pusher = new Pusher({
 
 io.on("connection", function(socket){
     console.log("connected...");
+
     socket.on('messageSent', function(message){
         io.emit('messageSent', message);
+        io.to('test_room').emit('roomEvent');
         console.log(message.text);
-    })
+    });
+
+    socket.on('createRoom', function(topic){
+       console.log(topic + ': created')
+        socket.join(topic);
+    });
+
+    socket.on('joinRoom', function(discussion){
+       this.join(discussion);
+        console.log('Join Discussion: ' + discussion);
+    });
+
+
 });
 
 var followList = '', playerIDArray = [], count = 0;

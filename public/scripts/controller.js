@@ -318,43 +318,54 @@ rapsApp.controller('instagramController', ['$scope','$location','$http','$sce','
 
 var client = new Pusher('e007ecf99bcbd70051de');
 
-rapsApp.service('pusherService', ['$pusher','$log', function($pusher, $log) {
-    $log.log('pusherService called');
+rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
+    this.socket = io.connect(document.domain + ":" + location.port);
+    this.socket.on('messageSent', function(message){
+        angular.element($('.chat-messages')).append('<p>'+ message.username + ': ' + message.text + '</p>');
+    });
+    this.socket.on('roomEvent', function(){
+       $log.log('room event called');
+    });
     this.pusher = $pusher(client);
     this.pusher.subscribe('main_channel');
     this.pusher.bind('my_event', function(data){
         angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
-        //$log.log(angular.element($('.chat-box')));
     });
+
 }]);
 
-rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','pusherService', function($scope, $pusher, $log, $http, pusherService){
-    var socket = io.connect(document.domain + ":" + location.port);
-
-    socket.on('connect', function () {
-        sessionId = socket.io.engine.id;
-        console.log('Connected ' + sessionId);
-    });
-
-    socket.on('messageSent', function(message){
-        angular.element($('.chat-messages')).append('<p>'+ message.username + ': ' + message.text + '</p>');
-        $log.log(message);
-    });
-
+rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService', function($scope, $pusher, $log, $http, socketService){
     $scope.username = 'Random';
 
 /*    pusherService.pusher.bind('my_event', function(data){
         angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
         //$log.log(angular.element($('.chat-box')));
     });*/
+    $scope.currentDiscussion = '';
+
+    $scope.discussions =
+    {
+        "dunk by derozan": {},
+        "bad foul call": {}
+    };
+
+    $scope.openDiscussion = function(discussion){
+        socketService.socket.emit('joinRoom');
+    };
+
+    $scope.createRoom = function(){
+        socketService.socket.emit('createRoom', $scope.discussionTopic);
+    };
 
     $scope.sendMessage = function(){
-/*        $http.post('/messageSent',{message: $scope.message, username: $scope.username});*/
-        socket.emit('messageSent', {text: $scope.message, username: $scope.username});
+        //$http.post('/messageSent',{message: $scope.message, username: $scope.username});
+        socketService.socket.emit('messageSent', {text: $scope.message, username: $scope.username});
         $scope.message = '';
+    };
+    $scope.joinDiscussion = function(discussion){
+        socketService.socket.emit('joinRoom', discussion);
+        $scope.currentDiscussion = discussion;
     }
-
-    $log.log($scope);
 }]);
 
 rapsApp.directive('navButtons', function(){

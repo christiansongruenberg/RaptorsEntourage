@@ -18,10 +18,10 @@
     <div class="commands col-md-2 col-xs-12">
         <label >Username <input type="text" id="username-input" placeholder="Username" ng-model="username"/></label>
         <button ng-click="createDiscussion()" id="start-discussion">Create Discussion</button>
-        <input type="text" id="dicussion-input" placeholder="Derozan Slam..." ng-model="discussionTopic"/>
-        <label for="">Choose a Discussion</label>
+        <input class="col-md-12" type="text" id="dicussion-input" placeholder="That awesome dunk!" ng-model="discussionTopic"/>
+        <label for="">Join a Discussion</label>
         <div ng-repeat="discussion in discussions">
-            <button ng-click="joinDiscussion(discussion)">{{discussion}}</button>
+            <button class="col-md-12" ng-click="joinDiscussion(discussion)">{{discussion}}</button>
         </div>
     </div>
 </div>

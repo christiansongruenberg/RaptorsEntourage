@@ -326,15 +326,35 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
     this.socket.on('roomEvent', function(){
        $log.log('room event called');
     });
-    this.pusher = $pusher(client);
+
+    this.socket.on('discussionMessage', function(message){
+        angular.element($('.discussion-chat-messages')).append('<p>'+  message.username + ': ' + message.text + '</p>');
+    });
+
+/*
+    this.socket.on('discussionCreated', function(discussion){
+
+    });
+*/
+
+//pusher functions if i ever want to switch back
+/*    this.pusher = $pusher(client);
     this.pusher.subscribe('main_channel');
     this.pusher.bind('my_event', function(data){
         angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
-    });
+    });*/
 
 }]);
 
 rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService', function($scope, $pusher, $log, $http, socketService){
+
+    socketService.socket.on('discussionCreated', function(discussion){
+        $log.log(discussion + " in discussionCreated");
+        $scope.discussions.push(discussion);
+        $log.log($scope.discussions);
+        $scope.$apply();
+    });
+
     $scope.username = 'Random';
 
 /*    pusherService.pusher.bind('my_event', function(data){
@@ -344,17 +364,18 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     $scope.currentDiscussion = '';
 
     $scope.discussions =
-    {
-        "dunk by derozan": {},
-        "bad foul call": {}
-    };
+    [
+    ];
 
     $scope.openDiscussion = function(discussion){
         socketService.socket.emit('joinRoom');
+
     };
 
-    $scope.createRoom = function(){
-        socketService.socket.emit('createRoom', $scope.discussionTopic);
+    $scope.createDiscussion = function(){
+        socketService.socket.emit('createDiscussion', $scope.discussionTopic);
+        $scope.currentDiscussion = $scope.discussionTopic;
+        $scope.discussionTopic = '';
     };
 
     $scope.sendMessage = function(){
@@ -362,7 +383,15 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         socketService.socket.emit('messageSent', {text: $scope.message, username: $scope.username});
         $scope.message = '';
     };
+
+    $scope.sendDiscussionMessage = function(){
+        socketService.socket.emit('sendDiscussionMessage', {text: $scope.discussionMessage, username: $scope.username, discussion: $scope.currentDiscussion});
+        $scope.discussionMessage = '';
+    };
+
     $scope.joinDiscussion = function(discussion){
+        angular.element($('.col-md-8')).addClass('col-md-6').removeClass('col-md-8');
+        angular.element($('.chatroom')).after('<discussion-chat></discussion-chat>');
         socketService.socket.emit('joinRoom', discussion);
         $scope.currentDiscussion = discussion;
     }
@@ -372,6 +401,12 @@ rapsApp.directive('navButtons', function(){
    return{
        templateUrl: '/html/templates/navButtons.html'
    }
+});
+
+rapsApp.directive('discussionChat', function(){
+    return{
+        templateUrl: '/html/templates/discussionChat.html'
+    }
 });
 
 /*

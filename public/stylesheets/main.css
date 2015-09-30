@@ -384,6 +384,7 @@ a:hover {
     bottom:0;
     height: 550px;
     background-color: white;
+    border: groove;
 /*    background: white url(http://www.transparenttextures.com/patterns/maze-white.png) repeat;*/
 }
 
@@ -416,4 +417,12 @@ a:hover {
 
 #start-discussion {
     width: 100%;
+}
+
+.discussionChatroom {
+    bottom:0;
+    height: 550px;
+    background-color: white;
+    border: groove;
+    /*    background: white url(http://www.transparenttextures.com/patterns/maze-white.png) repeat;*/
 }

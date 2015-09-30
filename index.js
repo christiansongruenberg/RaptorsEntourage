@@ -63,15 +63,21 @@ io.on("connection", function(socket){
         console.log(message.text);
     });
 
-    socket.on('createRoom', function(topic){
-       console.log(topic + ': created')
-        socket.join(topic);
+    socket.on('createDiscussion', function(topic){
+        console.log(topic + ': created')
+        this.join(topic);
+        io.emit('discussionCreated', topic);
     });
 
     socket.on('joinRoom', function(discussion){
        this.join(discussion);
         console.log('Join Discussion: ' + discussion);
     });
+
+    socket.on('sendDiscussionMessage', function(message){
+        console.log(message.text + ' to ' + message.discussion);
+        io.to(message.discussion).emit('discussionMessage', message);
+    })
 
 
 });
@@ -125,13 +131,13 @@ function upsertTweet(tweet){
     });
 });*/
 
-setInterval(function(){
+/*setInterval(function(){
     require('./tests/articlePolling.js')();
 }, 20000);
 
 setInterval(function () {
     require('./tests/instagramPolling.js')();
-}, 30000);
+}, 30000);*/
 
 
 app.set(function(req,res,next){

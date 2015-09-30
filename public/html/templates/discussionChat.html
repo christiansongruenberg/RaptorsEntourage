@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div class="discussionChatroom col-md-3 col-xs-12">
+    <p style="color: red;">Current discussion: {{currentDiscussion}}</p>
+    <div class="discussionChatbox col-xs-12">
+        <div class="discussion-chat-messages col-xs-12">
 
-</body>
-</html>
+        </div>
+    </div>
+    <form ng-submit="sendDiscussionMessage()" class="send-message-form">
+        <input ng-model="discussionMessage" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
+    </form>
+</div>

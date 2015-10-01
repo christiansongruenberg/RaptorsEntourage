@@ -64,7 +64,7 @@ io.on("connection", function(socket){
     });
 
     socket.on('createDiscussion', function(topic, username){
-        console.log(topic + ': created')
+        console.log(topic + ': created');
         this.join(topic);
         io.emit('discussionCreated', topic, username);
     });

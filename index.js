@@ -63,10 +63,10 @@ io.on("connection", function(socket){
         console.log(message.text);
     });
 
-    socket.on('createDiscussion', function(topic){
+    socket.on('createDiscussion', function(topic, username){
         console.log(topic + ': created')
         this.join(topic);
-        io.emit('discussionCreated', topic);
+        io.emit('discussionCreated', topic, username);
     });
 
     socket.on('joinRoom', function(discussion){

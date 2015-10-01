@@ -346,16 +346,18 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
 
 }]);
 
-rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService', function($scope, $pusher, $log, $http, socketService){
+rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService','$compile', function($scope, $pusher, $log, $http, socketService, $compile){
 
     socketService.socket.on('discussionCreated', function(discussion){
         $log.log(discussion + " in discussionCreated");
         $scope.discussions.push(discussion);
         $log.log($scope.discussions);
+        angular.element($('.chat-messages')).append($compile('<a ng-click="joinDiscussion(\'' + discussion + '\')">Join the discussion: ' + discussion + '</a><br/>')($scope));
         $scope.$apply();
+        $scope.$compile();
     });
 
-    $scope.username = 'Random';
+    $scope.username = 'caboclo_luver_5_4ever';
 
 /*    pusherService.pusher.bind('my_event', function(data){
         angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
@@ -369,11 +371,10 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
 
     $scope.openDiscussion = function(discussion){
         socketService.socket.emit('joinRoom');
-
     };
 
     $scope.createDiscussion = function(){
-        socketService.socket.emit('createDiscussion', $scope.discussionTopic);
+        socketService.socket.emit('createDiscussion', $scope.discussionTopic, $scope.username);
         $scope.currentDiscussion = $scope.discussionTopic;
         $scope.discussionTopic = '';
     };
@@ -390,10 +391,11 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     };
 
     $scope.joinDiscussion = function(discussion){
-        angular.element($('.col-md-8')).addClass('col-md-6').removeClass('col-md-8');
-        angular.element($('.chatroom')).after('<discussion-chat></discussion-chat>');
+/*        angular.element($('.col-md-8')).addClass('col-md-6').removeClass('col-md-8');
+        angular.element($('.chatroom')).after('<discussion-chat></discussion-chat>');*/
         socketService.socket.emit('joinRoom', discussion);
         $scope.currentDiscussion = discussion;
+        $log.log('joined ' + discussion);
     }
 }]);
 

@@ -388,14 +388,14 @@ a:hover {
 /*    background: white url(http://www.transparenttextures.com/patterns/maze-white.png) repeat;*/
 }
 
-.chatbox {
-    height: 95%;
+.chatbox, .discussionChatbox {
+    height: 85%;
     overflow: auto;
     padding: 0;
 }
 
-.chat-messages {
-
+.chat-messages, .discussion-chat-messages {
+    padding: 0;
 }
 
 .message-input {

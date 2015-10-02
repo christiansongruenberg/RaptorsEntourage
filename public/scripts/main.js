@@ -22,4 +22,11 @@ $(document).ready(function(){
         var video = $(this).prev();
         video[0].play();
     });
+
+    $(document).on("click", ".chatbox", function(){
+        console.log($(this).scrollTop());
+        $(this).animate({
+            scrollTop: $(this)[0].scrollHeight - $(this)[0].offsetHeight
+        }, 200);
+    });
 });

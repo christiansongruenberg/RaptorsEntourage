@@ -108,9 +108,8 @@ io.on("connection", function(socket){
     });
 
     socket.on('joinRoom', function(discussion){
-       this.join(discussion);
+        this.join(discussion);
         console.log('Join Discussion: ' + discussion);
-
     });
 
     socket.on('sendDiscussionMessage', function(message){

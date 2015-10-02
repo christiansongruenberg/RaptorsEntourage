@@ -17,6 +17,11 @@ body {
     /* PURPLE */
 /*        background-color: #34186d;*/
 }
+a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+
+}
 
 #tweets {
     overflow: auto;
@@ -380,21 +385,17 @@ a:hover {
     content: "\e080";
 }
 
-.chatroom {
+.chatroom, .discussionChatroom {
     bottom:0;
     height: 550px;
     background-color: white;
-    border: groove;
+    border: 1px solid grey;
 /*    background: white url(http://www.transparenttextures.com/patterns/maze-white.png) repeat;*/
 }
 
 .chatbox, .discussionChatbox {
     height: 85%;
     overflow: auto;
-    padding: 0;
-}
-
-.chat-messages, .discussion-chat-messages {
     padding: 0;
 }
 
@@ -417,12 +418,4 @@ a:hover {
 
 #start-discussion {
     width: 100%;
-}
-
-.discussionChatroom {
-    bottom:0;
-    height: 550px;
-    background-color: white;
-    border: groove;
-    /*    background: white url(http://www.transparenttextures.com/patterns/maze-white.png) repeat;*/
 }

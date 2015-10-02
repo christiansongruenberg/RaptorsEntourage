@@ -319,12 +319,13 @@ rapsApp.controller('instagramController', ['$scope','$location','$http','$sce','
 var client = new Pusher('e007ecf99bcbd70051de');
 
 rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
+
+/*    this.discussions = {};
+    $log.log(this.discussions);*/
     this.socket = io.connect(document.domain + ":" + location.port);
+
     this.socket.on('messageSent', function(message){
         angular.element($('.chat-messages')).append('<p>'+ message.username + ': ' + message.text + '</p>');
-    });
-    this.socket.on('roomEvent', function(){
-       $log.log('room event called');
     });
 
     this.socket.on('discussionMessage', function(message){
@@ -346,18 +347,48 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
 
 }]);
 
-rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService','$compile', function($scope, $pusher, $log, $http, socketService, $compile){
+rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService','$compile','$rootScope', function($scope, $pusher, $log, $http, socketService, $compile, $rootScope){
 
-    socketService.socket.on('discussionCreated', function(discussion){
-        $log.log(discussion + " in discussionCreated");
-        $scope.discussions.push(discussion);
-        $log.log($scope.discussions);
-        angular.element($('.chat-messages')).append($compile('<a ng-click="joinDiscussion(\'' + discussion + '\')">Join the discussion: ' + discussion + '</a><br/>')($scope));
-        $scope.$apply();
-        $scope.$compile();
+    $scope.discussions = [];
+    $scope.messages = [];
+    $scope.discussionMessages = [];
+
+    $http.get('/getDiscussions').success(function(data){
+        $scope.discussions = data.discussions;
     });
 
-    $scope.username = 'caboclo_luver_5_4ever';
+    $http.get('/getMainChat').success(function(data){
+       $scope.messages = data;
+        $log.log(data);
+    });
+
+    $scope.$on("$routeChangeStart", function(){
+        $log.log('route change called');
+        socketService.socket.removeListener('discussionCreated');
+        socketService.socket.removeListener('messageSent');
+        socketService.socket.removeListener('discussionMessage');
+    });
+
+    socketService.socket.on('discussionCreated', function (discussion, username) {
+        $scope.discussions.push(discussion);
+        $log.log($scope.discussions);
+        angular.element($('.chat-messages')).append($compile('<a ng-click="joinDiscussion(\'' + discussion.discussion + '\')">' + username + ' started the discussion: ' + discussion.discussion + '</a><br/>')($scope));
+        $scope.$apply();
+    });
+
+    socketService.socket.on('messageSent', function(message){
+        $log.log(message.text);
+        $scope.messages.push(message);
+        $scope.$apply();
+    });
+
+    socketService.socket.on('discussionMessage', function(message){
+        $scope.discussionMessages.push(message);
+        $scope.$apply();
+    });
+
+    $log.log(socketService);
+    $scope.username = 'RandomUsername';
 
 /*    pusherService.pusher.bind('my_event', function(data){
         angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
@@ -365,9 +396,7 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     });*/
     $scope.currentDiscussion = '';
 
-    $scope.discussions =
-    [
-    ];
+
 
     $scope.openDiscussion = function(discussion){
         socketService.socket.emit('joinRoom');
@@ -381,7 +410,7 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
 
     $scope.sendMessage = function(){
         //$http.post('/messageSent',{message: $scope.message, username: $scope.username});
-        socketService.socket.emit('messageSent', {text: $scope.message, username: $scope.username});
+        socketService.socket.emit('messageSent', {text: $scope.message, username: $scope.username, discussion: 'main_chat'});
         $scope.message = '';
     };
 
@@ -395,6 +424,9 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         angular.element($('.chatroom')).after('<discussion-chat></discussion-chat>');*/
         socketService.socket.emit('joinRoom', discussion);
         $scope.currentDiscussion = discussion;
+        $http.get('/getDiscussionChat/' + $scope.currentDiscussion).success(function(messages){
+            $scope.discussionMessages = messages;
+        });
         $log.log('joined ' + discussion);
     }
 }]);

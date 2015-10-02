@@ -54,32 +54,70 @@ var pusher = new Pusher({
 
 /*app.use(morgan('combined'));*/
 
+var discussionSchema = new mongoose.Schema({
+    discussion : String,
+    created_at: Date
+}, {collection: 'discussions'});
+
+var DiscussionModel = mongoose.model('discussion', discussionSchema);
+
+var messageSchema = new mongoose.Schema({
+    created_at: Date,
+    text: String,
+    username: String,
+    discussion: String
+}, {collection: 'messages'});
+
+var MessageModel = mongoose.model('messages', messageSchema);
+
+var storeMessage = function(message){
+    console.log('message is ' + message.text);
+    var newMessage = new MessageModel ({
+        created_at: Date.now(),
+        text: message.text,
+        username: message.username,
+        discussion: message.discussion
+    });
+
+    newMessage.save(function(){
+       console.log('message saved');
+    });
+};
+
 io.on("connection", function(socket){
     console.log("connected...");
 
     socket.on('messageSent', function(message){
+        storeMessage(message);
         io.emit('messageSent', message);
-        io.to('test_room').emit('roomEvent');
-        console.log(message.text);
     });
 
     socket.on('createDiscussion', function(topic, username){
-        console.log(topic + ': created');
+        console.log(topic + ': created by ' + username );
+        var newDiscussion = new DiscussionModel({
+            discussion: topic,
+            created_at: Date.now()
+        });
+
+        newDiscussion.save(function(){
+            console.log('discussion saved');
+        });
+
         this.join(topic);
-        io.emit('discussionCreated', topic, username);
+        io.emit('discussionCreated', newDiscussion, username);
     });
 
     socket.on('joinRoom', function(discussion){
        this.join(discussion);
         console.log('Join Discussion: ' + discussion);
+
     });
 
     socket.on('sendDiscussionMessage', function(message){
+        storeMessage(message);
         console.log(message.text + ' to ' + message.discussion);
         io.to(message.discussion).emit('discussionMessage', message);
     })
-
-
 });
 
 var followList = '', playerIDArray = [], count = 0;
@@ -152,7 +190,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
-app.use(router.routerFunction(pusher));
+app.use(router.routerFunction(DiscussionModel, MessageModel));
 
 http.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));

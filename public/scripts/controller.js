@@ -333,7 +333,6 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
     });
 
     this.username = '';
-    this.newUser = true;
 
 /*
     this.socket.on('discussionCreated', function(discussion){
@@ -351,12 +350,11 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
 }]);
 
 rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService','$compile','$rootScope','$timeout', function($scope, $pusher, $log, $http, socketService, $compile, $rootScope, $timeout){
-    $scope.initUsernameInput = '';
+
     $scope.initUsername = function(){
         $scope.username = $scope.initUsernameInput;
         $log.log($scope.initUsernameInput);
         $scope.newUser = false;
-
     };
 
     $scope.discussions = [];
@@ -419,8 +417,8 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
             }, 100);
         }
     });
-
-    if(socketService.username == '') {
+    $log.log(socketService.username);
+    if(!socketService.username) {
         $scope.newUser = true;
     } else{
         $scope.username = socketService.username;
@@ -477,6 +475,7 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         });
         $log.log('joined ' + discussion);
     }
+    $log.log($scope.newUser);
 }]);
 
 rapsApp.directive('navButtons', function(){

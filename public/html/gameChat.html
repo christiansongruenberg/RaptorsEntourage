@@ -5,8 +5,12 @@
     </div>
     <div class="chatroom col-md-5 col-xs-12">
         <div ng-show="newUser" class="username-popup">
-            <form  ng-submit="initUsername()" class="choose-username">
-                <input ng-model="initUsernameInput" class="" placeholder="Choose a Username" type="text"/>
+            <form  ng-submit="initUsername()" id="init-username-form">
+                <label id="init-username-label"> Choose a Username</label>
+                <div>
+                    <p>></p>
+                    <input ng-model="initUsernameInput" id="init-input" type="text"/>
+                </div>
             </form>
         </div>
 

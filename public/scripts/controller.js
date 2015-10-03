@@ -459,8 +459,7 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     };
 
     $scope.joinDiscussion = function(discussion){
-/*        angular.element($('.col-md-8')).addClass('col-md-6').removeClass('col-md-8');
-        angular.element($('.chatroom')).after('<discussion-chat></discussion-chat>');*/
+
         if($scope.currentDiscussion){
             socketService.socket.emit('leaveRoom', $scope.currentDiscussion);
         }
@@ -478,8 +477,15 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         angular.element($('.chatroom')).addClass('col-md-5').removeClass('col-md-8');
         $scope.discussionOpen = true;
 
-    }
-    $log.log($scope.newUser);
+    };
+
+    $scope.closeDiscussion = function(){
+        $scope.discussionOpen = false;
+        socketService.socket.emit('leaveRoom', $scope.currentDiscussion);
+        angular.element($('.chatroom')).addClass('col-md-8').removeClass('col-md-5');
+        $scope.currentDiscussion = '';
+    };
+
 }]);
 
 rapsApp.directive('navButtons', function(){

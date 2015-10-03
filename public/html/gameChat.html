@@ -24,6 +24,7 @@
     </div>
 
 <div ng-show="discussionOpen" class="discussionChatroom col-md-3 col-xs-12">
+    <button ng-click="closeDiscussion()" id="close-discussion-button">X</button>
     <p style="color: red;">Current discussion: {{currentDiscussion}}</p>
     <div class="discussionChatbox col-xs-12">
         <p ng-repeat="message in discussionMessages">{{message.username}}: {{message.text}}</p>

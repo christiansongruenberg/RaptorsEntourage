@@ -112,6 +112,10 @@ io.on("connection", function(socket){
         console.log('Join Discussion: ' + discussion);
     });
 
+    socket.on('leaveRoom', function(discussion){
+       this.leave(discussion);
+    });
+
     socket.on('sendDiscussionMessage', function(message){
         storeMessage(message);
         console.log(message.text + ' to ' + message.discussion);

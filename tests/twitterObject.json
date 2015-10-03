@@ -1,88 +1,103 @@
 {
-  _id: 560d935059f39a02f3c96ba8,
-  tweet_ID:'649676366309294084',
-  tweetObject:{
-    created_at:'Thu Oct 01 20:04:50 +0000 2015',
-    id:649676366309294100,
-    id_str:'649676366309294084',
-    text:'@Topnotch_Tglass @DavidBoydhoops we woulda got y\'all T ?',
-    source:'<a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>',
-    truncated:false,
-    in_reply_to_status_id:649626554910253000,
-    in_reply_to_status_id_str:'649626554910253057',
-    in_reply_to_user_id:242041044,
-    in_reply_to_user_id_str:'242041044',
-    in_reply_to_screen_name:'Topnotch_Tglass',
-    user:{
-      id:1671866024,
-      id_str:'1671866024',
-      name:'Shannon Scott',
-      screen_name:'3SScott',
-      location:'Atlanta GA...Columbus OH',
-      description:'RIPDJP',
-      url:null,
-      entities:[
-        Object
+  "_id": 560
+  "d935059f39a02f3c96ba8",
+  "tweet_ID": "649676366309294084",
+  "tweetObject":{
+    "created_at": "Thu Oct 01 20:04:50 +0000 2015",
+    "id":649676366309294100,
+    "id_str": "649676366309294084",
+    "text": "@Topnotch_Tglass @DavidBoydhoops we woulda got y\\'all T ?",
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+    "truncated":false,
+    "in_reply_to_status_id":649626554910253000,
+    "in_reply_to_status_id_str": "649626554910253057",
+    "in_reply_to_user_id":242041044,
+    "in_reply_to_user_id_str": "242041044",
+    "in_reply_to_screen_name": "Topnotch_Tglass",
+    "user":{
+      "id":1671866024,
+      "id_str": "1671866024",
+      "name": "Shannon Scott",
+      "screen_name": "3SScott",
+      "location": "Atlanta GA...Columbus OH",
+      "description": "RIPDJP",
+      "url":null,
+      "entities":[
+        "Object"
       ],
-      protected:false,
-      followers_count:8407,
-      friends_count:296,
-      listed_count:39,
-      created_at:'Thu Aug 15 01:22:07 +0000 2013',
-      favourites_count:430,
-      utc_offset:-14400,
-      time_zone:'Eastern Time (US & Canada)',
-      geo_enabled:false,
-      verified:false,
-      statuses_count:692,
-      lang:'en',
-      contributors_enabled:false,
-      is_translator:false,
-      is_translation_enabled:false,
-      profile_background_color:'C0DEED',
-      profile_background_image_url:'http://abs.twimg.com/images/themes/theme1/bg.png',
-      profile_background_image_url_https:'https://abs.twimg.com/images/themes/theme1/bg.png',
-      profile_background_tile:false,
-      profile_image_url:'http://pbs.twimg.com/profile_images/378800000299755295/325332a643c61c684831635800c68b51_normal.jpeg',
-      profile_image_url_https:'https://pbs.twimg.com/profile_images/378800000299755295/325332a643c61c684831635800c68b51_normal.jpeg',
-      profile_banner_url:'https://pbs.twimg.com/profile_banners/1671866024/1376577940',
-      profile_link_color:'0084B4',
-      profile_sidebar_border_color:'C0DEED',
-      profile_sidebar_fill_color:'DDEEF6',
-      profile_text_color:'333333',
-      profile_use_background_image:true,
-      has_extended_profile:false,
-      default_profile:true,
-      default_profile_image:false,
-      following:false,
-      follow_request_sent:false,
-      notifications:false
+      "protected":false,
+      "followers_count":8407,
+      "friends_count":296,
+      "listed_count":39,
+      "created_at": "Thu Aug 15 01:22:07 +0000 2013",
+      "favourites_count":430,
+      "utc_offset":-14400,
+      "time_zone": "Eastern Time (US & Canada)",
+      "geo_enabled":false,
+      "verified":false,
+      "statuses_count":692,
+      "lang": "en",
+      "contributors_enabled":false,
+      "is_translator":false,
+      "is_translation_enabled":false,
+      "profile_background_color": "C0DEED",
+      "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_tile":false,
+      "profile_image_url": "http://pbs.twimg.com/profile_images/378800000299755295/325332a643c61c684831635800c68b51_normal.jpeg",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/378800000299755295/325332a643c61c684831635800c68b51_normal.jpeg",
+      "profile_banner_url": "https://pbs.twimg.com/profile_banners/1671866024/1376577940",
+      "profile_link_color": "0084B4",
+      "profile_sidebar_border_color": "C0DEED",
+      "profile_sidebar_fill_color": "DDEEF6",
+      "profile_text_color": "333333",
+      "profile_use_background_image":true,
+      "has_extended_profile":false,
+      "default_profile":true,
+      "default_profile_image":false,
+      "following":false,
+      "follow_request_sent":false,
+      "notifications":false
     },
-    geo:null,
-    coordinates:null,
-    place:null,
-    contributors:null,
-    is_quote_status:false,
-    retweet_count:0,
-    favorite_count:1,
-    entities:{
-      hashtags:[
+    "geo":null,
+    "coordinates":null,
+    "place":null,
+    "contributors":null,
+    "is_quote_status":false,
+    "retweet_count":0,
+    "favorite_count":1,
+    "entities":{
+      "hashtags":[
 
       ],
-      symbols:[
+      "symbols":[
 
       ],
-      user_mentions:[
-        Object
+      "user_mentions":[
+        "Object"
       ],
-      urls:[
+      "urls":[
 
       ]
     },
-    favorited:false,
-    retweeted:false,
-    lang:'en'
+    "favorited":false,
+    "retweeted":false,
+    "lang": "en"
   },
-  created_at:   Thu Oct 01 2015 16:04:50   GMT-0400 (Eastern Daylight Time),
-  __v:0
+  "created_at": "Thu"
+  "Oct"
+  "0"
+  "1"
+  "2015"
+  "16":0
+  "4":50
+  "GMT"
+  "-0"
+  "400"
+  (
+  "Eastern"
+  "Daylight"
+  "Time"
+  ),
+  "__v":0
 }

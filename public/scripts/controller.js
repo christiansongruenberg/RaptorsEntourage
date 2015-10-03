@@ -332,6 +332,8 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
         angular.element($('.discussion-chat-messages')).append('<p>'+  message.username + ': ' + message.text + '</p>');
     });
 
+    this.username = '';
+
 /*
     this.socket.on('discussionCreated', function(discussion){
 
@@ -410,8 +412,15 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         }
     });
 
-    $log.log(socketService);
-    $scope.username = 'RandomUsername';
+    if(socketService.username == '') {
+        $scope.username = 'RandomUsername';
+    } else{
+        $scope.username == socketService.username;
+    }
+
+    $scope.$watch('username', function(){
+       socketService.username = $scope.username;
+    });
 
 /*    pusherService.pusher.bind('my_event', function(data){
         angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
@@ -445,6 +454,9 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     $scope.joinDiscussion = function(discussion){
 /*        angular.element($('.col-md-8')).addClass('col-md-6').removeClass('col-md-8');
         angular.element($('.chatroom')).after('<discussion-chat></discussion-chat>');*/
+        if($scope.currentDiscussion){
+            socketService.socket.emit('leaveRoom', $scope.currentDiscussion);
+        }
         socketService.socket.emit('joinRoom', discussion);
         $scope.currentDiscussion = discussion;
         $http.get('/getDiscussionChat/' + $scope.currentDiscussion).success(function(messages){

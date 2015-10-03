@@ -98,6 +98,13 @@ a:hover {
     font-weight: bold;
 }
 
+.tweet-username {
+    font-size: 10pt;
+    color: #a2a2a2;
+    font-weight: none;
+    display: inline;
+}
+
 .tweet-text {
     font-size: 10pt;
 }
@@ -138,6 +145,7 @@ a:hover {
 
 .article-body {
     text-align: justify;
+    margin-top: 10px;
 }
 
 .article-body img{
@@ -179,20 +187,24 @@ a:hover {
     color: #FFFFFF;
     padding: 5px;
     margin-top: 10px;
+    margin-bottom: 10px;
     display: inline-block;
 }
 
 .article-author {
     font-weight: bold;
-    font-size: 8pt;
+    font-size: 9pt;
     font-style: italic;
+    padding-bottom: 20px;
 }
 
 .article-published {
     font-weight: bold;
-    font-size: 8pt;
+    font-size: 9pt;
     font-style: italic;
-    clear: right;
+    display: inline;
+    padding-bottom: 20px;
+    /*clear: right;*/
 }
 
 .article-posted-link:link{

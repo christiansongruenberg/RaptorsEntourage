@@ -415,7 +415,7 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     if(socketService.username == '') {
         $scope.username = 'RandomUsername';
     } else{
-        $scope.username == socketService.username;
+        $scope.username = socketService.username;
     }
 
     $scope.$watch('username', function(){

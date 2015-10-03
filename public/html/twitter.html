@@ -34,7 +34,7 @@
                 <img class="media-object" ng-src="{{tweet.tweetObject.user.profile_image_url}}"/>
             </div>
             <div class="media-body">
-                <h3 class="tweet-name media-heading">{{tweet.tweetObject.user.screen_name}}</h3>
+                <span class="tweet-name media-heading">{{tweet.tweetObject.user.name}}</span> <span class="tweet-username media-heading">@{{tweet.tweetObject.user.screen_name}}</span>
                 <p class="tweet-text">{{tweet.tweetObject.text}}</p>
 
             </div>

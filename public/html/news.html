@@ -33,11 +33,10 @@
             <p class="article-posted-at"><b>Posted at:</b> <a class="article-posted-link" href="{{article.feed.link}}" target="_blank">{{article.feed.name}}</a></p>
             <h1 class="article-title"><a class="article-title-link" href="{{article.link}}" target="_blank">{{article.title}}</a></h1>
 
-            <p ng-if="article.author" class="article-author"><b>Author:</b> {{article.author}}</p>
+            <span ng-if="article.author" class="article-author"><b>Author:</b> {{article.author}} || </span> <span class="article-published"><b>Published on:</b> {{article.published | date: 'medium': '-0500'}}</span>
 
             <div class="article-body" ng-bind-html="article.content"></div>
 
-            <h6 class="article-published">{{article.published | date: 'medium': '-0500'}}</h6>
         </div>
         <div class="col-md-12">
             <button ng-click="getMoreArticles()" class="button button-royal button-circle button-giant" id="load-more-button">Load More</button>

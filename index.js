@@ -168,13 +168,13 @@ function upsertTweet(tweet){
     });
 });*/
 
-/*setInterval(function(){
+setInterval(function(){
     require('./tests/articlePolling.js')();
 }, 20000);
 
 setInterval(function () {
     require('./tests/instagramPolling.js')();
-}, 30000);*/
+}, 30000);
 
 
 app.set(function(req,res,next){
@@ -182,6 +182,7 @@ app.set(function(req,res,next){
     res.set("Content-Type", "text/plain; charset=utf-8");
    next();
 });
+
 app.set('port', (process.env.PORT || 3000));
 app.use(favicon(__dirname + "/public/images/favicon.ico"));
 app.set('views', path.join(__dirname,"views"));

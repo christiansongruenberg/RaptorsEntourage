@@ -29,7 +29,7 @@ rapsApp.controller('twitterController', ['$scope','$location','$http', '$log','$
 
     $http.get('/getTweets').success(function(data){
         $scope.tweets = data.tweets;
-
+        $log.log(data.tweets[0]);
         $timeout(function(){
             $log.log(angular.element($('.tweet-text')));
             angular.element($('.tweet-text')).linkify();
@@ -417,9 +417,8 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         angular.element($('.chat-messages')).append('<p>'+ data.username + ': ' + data.message + '</p>');
         //$log.log(angular.element($('.chat-box')));
     });*/
+
     $scope.currentDiscussion = '';
-
-
 
     $scope.openDiscussion = function(discussion){
         socketService.socket.emit('joinRoom');

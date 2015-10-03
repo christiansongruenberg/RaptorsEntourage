@@ -3,7 +3,7 @@
         <nav-buttons></nav-buttons>
         <br/>
     </div>
-    <div class="chatroom col-md-5 col-xs-12">
+    <div class="chatroom col-md-8 col-xs-12">
         <div ng-show="newUser" class="username-popup">
             <form  ng-submit="initUsername()" id="init-username-form">
                 <label id="init-username-label"> Choose a Username</label>
@@ -15,14 +15,24 @@
         </div>
 
         <h4>Talk about the game here</h4>
-<div class="chatbox col-xs-12">
-    <p ng-repeat="message in messages">{{message.username}}: {{message.text}}</p>
+        <div class="chatbox col-xs-12">
+            <p ng-repeat="message in messages">{{message.username}}: {{message.text}}</p>
+        </div>
+        <form ng-submit="sendMessage()" class="send-message-form">
+            <input ng-model="message" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
+        </form>
+    </div>
+
+<div ng-show="discussionOpen" class="discussionChatroom col-md-3 col-xs-12">
+    <p style="color: red;">Current discussion: {{currentDiscussion}}</p>
+    <div class="discussionChatbox col-xs-12">
+        <p ng-repeat="message in discussionMessages">{{message.username}}: {{message.text}}</p>
+    </div>
+    <form ng-submit="sendDiscussionMessage()" class="send-message-form">
+        <input ng-model="discussionMessage" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
+    </form>
 </div>
-<form ng-submit="sendMessage()" class="send-message-form">
-    <input ng-model="message" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
-</form>
-</div>
-<discussion-chat></discussion-chat>
+
 <div class="commands col-md-2 col-xs-12">
     <span class="chat-title"><span aria-hidden="true" class="icon_profile icon"></span>Username</span>
         <input type="text" id="username-input" placeholder="Username" ng-model="username"/></>

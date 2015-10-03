@@ -357,6 +357,7 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         $scope.newUser = false;
     };
 
+    $scope.discussionOpen = false;
     $scope.discussions = [];
     $scope.messages = [];
     $scope.discussionMessages = [];
@@ -474,6 +475,9 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
             }, 100)
         });
         $log.log('joined ' + discussion);
+        angular.element($('.chatroom')).addClass('col-md-5').removeClass('col-md-8');
+        $scope.discussionOpen = true;
+
     }
     $log.log($scope.newUser);
 }]);

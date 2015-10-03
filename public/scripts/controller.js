@@ -333,6 +333,7 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
     });
 
     this.username = '';
+    this.newUser = true;
 
 /*
     this.socket.on('discussionCreated', function(discussion){
@@ -350,6 +351,13 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
 }]);
 
 rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService','$compile','$rootScope','$timeout', function($scope, $pusher, $log, $http, socketService, $compile, $rootScope, $timeout){
+    $scope.initUsernameInput = '';
+    $scope.initUsername = function(){
+        $scope.username = $scope.initUsernameInput;
+        $log.log($scope.initUsernameInput);
+        $scope.newUser = false;
+
+    };
 
     $scope.discussions = [];
     $scope.messages = [];
@@ -413,7 +421,7 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     });
 
     if(socketService.username == '') {
-        $scope.username = 'RandomUsername';
+        $scope.newUser = true;
     } else{
         $scope.username = socketService.username;
     }

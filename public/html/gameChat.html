@@ -11,21 +11,27 @@
         </div>
 
         <h4>Talk about the game here</h4>
-        <div class="chatbox col-xs-12">
-            <p ng-repeat="message in messages">{{message.username}}: {{message.text}}</p>
+<div class="chatbox col-xs-12">
+    <p ng-repeat="message in messages">{{message.username}}: {{message.text}}</p>
+</div>
+<form ng-submit="sendMessage()" class="send-message-form">
+    <input ng-model="message" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
+</form>
+</div>
+<discussion-chat></discussion-chat>
+<div class="commands col-md-2 col-xs-12">
+    <label><span aria-hidden="true" class="icon_chat icon"></span>Username
+        <input type="text" id="username-input" placeholder="Username" ng-model="username"/></label>
+
+    <label>Create a Discussion</label>
+    <input class="col-md-12" type="text" id="dicussion-input" placeholder="That awesome dunk!" ng-model="discussionTopic"/>
+        <div class="navpad col-md-12 col-xs-3">
+            <a ng-click="createDiscussion()" class="twitter-button btn btn-default nav" id="start-discussion">Create</a>
         </div>
-        <form ng-submit="sendMessage()" class="send-message-form">
-            <input ng-model="message" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
-        </form>
+
+    <label for=""><span aria-hidden="true" class="icon_chat icon"></span> Join a Discussion</label>
+    <div ng-repeat="discussion in discussions">
+         <button class="col-md-12" ng-click="joinDiscussion(discussion.discussion)">{{discussion.discussion}}</button>
     </div>
-    <discussion-chat></discussion-chat>
-    <div class="commands col-md-2 col-xs-12">
-        <label >Username <input type="text" id="username-input" placeholder="Username" ng-model="username"/></label>
-        <button ng-click="createDiscussion()" id="start-discussion">Create Discussion</button>
-        <input class="col-md-12" type="text" id="dicussion-input" placeholder="That awesome dunk!" ng-model="discussionTopic"/>
-        <label for="">Join a Discussion</label>
-        <div ng-repeat="discussion in discussions">
-            <button class="col-md-12" ng-click="joinDiscussion(discussion.discussion)">{{discussion.discussion}}</button>
-        </div>
-    </div>
+
 </div>

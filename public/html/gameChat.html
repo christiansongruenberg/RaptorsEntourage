@@ -46,7 +46,7 @@
             <a ng-click="createDiscussion()" class="twitter-button btn btn-default nav col-md-12" id="start-discussion">Create</a>
         <label class="chat-commands-header"><span aria-hidden="true" class="icon_chat icon"></span> Join a Discussion</label>
         <div ng-repeat="discussion in discussions">
-             <button class="twitter-button btn btn-default nav col-md-12 discussion-button" ng-click="joinDiscussion(discussion.discussion)">{{discussion.discussion}}</button>
+             <button class="twitter-button btn btn-default nav col-md-12 discussion-button" ng-click="joinDiscussion(discussion.discussion)" style="white-space: normal"><span>{{discussion.population}}</span> <span>{{discussion.discussion}}</span></button>
         </div>
     </div>
 </div>

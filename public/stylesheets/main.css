@@ -1,3 +1,14 @@
+html {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
 .page-header{
     border-radius: 4px;
 }
@@ -400,24 +411,28 @@ a:hover {
 /*    background: white url(http://www.transparenttextures.com/patterns/maze-white.png) repeat;*/
 }
 
-.chatroom-banner{
+.chatroom-banner, .discussion-chatroom-banner{
     width:100%;
     background-color: #B41F2B;
     padding: 2px 5px;
-
     font-family: "Courier New";
 }
 
 .discussion-chatroom-banner{
-    width:100%;
     background-color: #34186d;
-    padding: 2px 5px;
-    font-family: "Courier New";
 }
 
 .chatroom-banner, .discussion-chatroom-banner{
     color: white;
     height: 40px;
+}
+
+
+.chatroom-banner span, .discussion-chatroom-banner span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: smaller;
+    margin: 0;
 }
 
 .chatbox, .discussionChatbox {
@@ -427,6 +442,7 @@ a:hover {
 
 .chatbox > p, .discussionChatbox > p {
     margin-bottom: 3px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
 
 }
 .message-input {
@@ -447,7 +463,9 @@ a:hover {
 }
 
 #start-discussion {
+    margin: 5px 0;
     width: 100%;
+    font-weight: normal;
 }
 
 .username-popup {
@@ -481,6 +499,7 @@ a:hover {
 
 #init-username-label{
     font-size: large;
+    font-weight: normal;
     font-family: "Courier New";
 }
 
@@ -514,8 +533,18 @@ a:hover {
     border: 0;
 }
 
-#chat-username {
+.chat-username {
     font-weight: bold;
-    color: #34186d;
-    text-transform: uppercase;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    /*color: #34186d;*/
+    /*text-transform: uppercase;*/
+}
+
+.chat-commands-header {
+    font-weight: normal;
+}
+
+.discussion-button {
+    font-weight: normal;
+
 }

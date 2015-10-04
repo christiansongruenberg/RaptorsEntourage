@@ -14,9 +14,9 @@
                 </form>
             </div>
 
-            <div class="chatroom-banner">Raptors vs. Clippers!</div>
+            <div class="chatroom-banner"><span>Raptors vs. Clippers!</span></div>
             <div class="chatbox col-xs-12">
-                <p ng-repeat="message in messages"><span id="chat-username">{{message.username}}:</span> {{message.text}}</p>
+                <p ng-repeat="message in messages"><span class="chat-username">{{message.username}}:</span> {{message.text}}</p>
             </div>
             <form ng-submit="sendMessage()" class="send-message-form">
                 <input ng-model="message" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
@@ -25,13 +25,11 @@
 
 <div ng-show="discussionOpen" class="discussionChatroom col-md-3 col-xs-12">
     <div class="discussion-chatroom-banner">
-        <p>Current discussion: {{currentDiscussion}}</p>
+        <span>Current discussion:{{currentDiscussion}}</span>
         <button ng-click="closeDiscussion()" id="close-discussion-button"><span aria-hidden="true" class="icon_close"></span></button>
     </div>
-
-
     <div class="discussionChatbox col-xs-12">
-        <p ng-repeat="message in discussionMessages">{{message.username}}: {{message.text}}</p>
+        <p ng-repeat="message in discussionMessages"><span class="chat-username">{{message.username}}:</span> {{message.text}}</p>
     </div>
     <form ng-submit="sendDiscussionMessage()" class="send-message-form">
         <input ng-model="discussionMessage" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
@@ -39,18 +37,16 @@
 </div>
 
 <div class="commands col-md-2 col-xs-12">
-    <span class="chat-title"><span aria-hidden="true" class="icon_profile icon"></span>Username</span>
+    <span class="chat-commands-header"><span aria-hidden="true" class="icon_profile icon"></span>Username</span>
         <input type="text" id="username-input" placeholder="Username" ng-model="username"/></>
 
-    <label>Create a Discussion</label>
-    <input class="col-md-12" type="text" id="dicussion-input" placeholder="That awesome dunk!" ng-model="discussionTopic"/>
-        <div class="navpad col-md-12 col-xs-3">
-            <a ng-click="createDiscussion()" class="twitter-button btn btn-default nav" id="start-discussion">Create</a>
+    <div class="discussion-panel">
+        <label class="chat-commands-header"><span aria-hidden="true" class="icon_pencil icon"></span >Create a Discussion</label>
+        <input class="col-md-12" type="text" id="dicussion-input" placeholder="That awesome dunk!" ng-model="discussionTopic"/>
+            <a ng-click="createDiscussion()" class="twitter-button btn btn-default nav col-md-12" id="start-discussion">Create</a>
+        <label class="chat-commands-header"><span aria-hidden="true" class="icon_chat icon"></span> Join a Discussion</label>
+        <div ng-repeat="discussion in discussions">
+             <button class="twitter-button btn btn-default nav col-md-12 discussion-button" ng-click="joinDiscussion(discussion.discussion)">{{discussion.discussion}}</button>
         </div>
-
-    <label for=""><span aria-hidden="true" class="icon_chat icon"></span> Join a Discussion</label>
-    <div ng-repeat="discussion in discussions">
-         <button class="col-md-12" ng-click="joinDiscussion(discussion.discussion)">{{discussion.discussion}}</button>
     </div>
-
 </div>

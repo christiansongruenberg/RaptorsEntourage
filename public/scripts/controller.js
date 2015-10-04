@@ -357,13 +357,6 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         $scope.newUser = false;
     };
 
-    $scope.newUserAdded = function(discussion){
-        socketService.socket.emit('userAdded', discussion);
-    };
-
-    $scope.userLeave= function(discussion){
-        socketService.socket.emit('userLeft', discussion);
-    };
 
     $scope.discussionOpen = false;
     $scope.discussions = [];
@@ -451,10 +444,16 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     };
 
     $scope.createDiscussion = function(){
-        socketService.socket.emit('createDiscussion', $scope.discussionTopic, $scope.username);
-        $scope.currentDiscussion = $scope.discussionTopic;
-        $scope.discussionTopic = '';
-        $scope.discussionMessages = [];
+        if($scope.discussionTopic) {
+            socketService.socket.emit('createDiscussion', $scope.discussionTopic, $scope.username);
+            $scope.currentDiscussion = $scope.discussionTopic;
+            $scope.discussionTopic = '';
+            $scope.discussionMessages = [];
+            if(!$scope.discussionOpen) {
+                angular.element($('.chatroom')).addClass('col-md-5').removeClass('col-md-8');
+                $scope.discussionOpen = true;
+            }
+        }
     };
 
     $scope.sendMessage = function(){
@@ -468,12 +467,22 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         $scope.discussionMessage = '';
     };
 
+    $scope.newUserAdded = function(discussion){
+        $log.log("newUserAdded called");
+        socketService.socket.emit('userAdded', discussion);
+    };
+
+    $scope.userLeave= function(discussion){
+        socketService.socket.emit('userLeft', discussion);
+    };
+
     $scope.joinDiscussion = function(discussion){
 
         if($scope.currentDiscussion){
             socketService.socket.emit('leaveRoom', $scope.currentDiscussion);
         }
         socketService.socket.emit('joinRoom', discussion);
+        $scope.newUserAdded(discussion);
         $scope.currentDiscussion = discussion;
         $http.get('/getDiscussionChat/' + $scope.currentDiscussion).success(function(messages){
             $scope.discussionMessages = messages;

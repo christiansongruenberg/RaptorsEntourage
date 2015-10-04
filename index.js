@@ -57,7 +57,7 @@ var pusher = new Pusher({
 var discussionSchema = new mongoose.Schema({
     discussion : String,
     created_at: Date,
-    //population: Integer
+    population: Number
 }, {collection: 'discussions'});
 
 var DiscussionModel = mongoose.model('discussion', discussionSchema);
@@ -85,10 +85,6 @@ var storeMessage = function(message){
     });
 };
 
-io.on("", function(socket){
-
-});
-
 io.on("connection", function(socket){
     console.log("connected...");
 
@@ -97,19 +93,23 @@ io.on("connection", function(socket){
         io.emit('messageSent', message);
     });
 
-    socket.on('newUserAdded', function(discussion){
-
+    socket.on('userAdded', function(discussion){
+        console.log('userAdded emitted');
+        DiscussionModel.findOne({discussion: discussion}, null, {}, function(err, discussion){
+            var populationIncrement = discussion.population + 1;
+            DiscussionModel.findOneAndUpdate({discussion: discussion.discussion}, {population: populationIncrement},{}, function(err,doc){
+                if (err) throw err;
+            });
+        })
     });
 
-    socket.on("disconnect", function(){
-       console.log("disconnected");
-    });
 
     socket.on('createDiscussion', function(topic, username){
         console.log(topic + ': created by ' + username );
         var newDiscussion = new DiscussionModel({
             discussion: topic,
-            created_at: Date.now()
+            created_at: Date.now(),
+            population: 1
         });
 
         newDiscussion.save(function(){

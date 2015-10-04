@@ -57,7 +57,7 @@ var pusher = new Pusher({
 var discussionSchema = new mongoose.Schema({
     discussion : String,
     created_at: Date,
-    population: Integer
+    //population: Integer
 }, {collection: 'discussions'});
 
 var DiscussionModel = mongoose.model('discussion', discussionSchema);

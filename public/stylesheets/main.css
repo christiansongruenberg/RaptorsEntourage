@@ -497,7 +497,7 @@ a:hover {
     color: black;
     font-size: 20pt;
     background-color: transparent;
-    border: 0px;
+    border: 0;
 }
 
 #chat-username {

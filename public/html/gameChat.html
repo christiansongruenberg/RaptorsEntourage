@@ -3,29 +3,33 @@
         <nav-buttons></nav-buttons>
         <br/>
     </div>
-    <div class="chatroom col-md-8 col-xs-12">
-        <div ng-show="newUser" class="username-popup">
-            <form  ng-submit="initUsername()" id="init-username-form">
-                <label id="init-username-label"> Choose a Username</label>
-                <div>
-                    <p>></p>
-                    <input ng-model="initUsernameInput" id="init-input" type="text"/>
-                </div>
+        <div class="chatroom col-md-8 col-xs-12">
+            <div ng-show="newUser" class="username-popup">
+                <form  ng-submit="initUsername()" id="init-username-form">
+                    <label id="init-username-label"> Choose a Username</label>
+                    <div>
+                        <p>></p>
+                        <input ng-model="initUsernameInput" id="init-input" type="text"/>
+                    </div>
+                </form>
+            </div>
+
+            <div class="chatroom-banner">Raptors vs. Clippers!</div>
+            <div class="chatbox col-xs-12">
+                <p ng-repeat="message in messages"><span id="chat-username">{{message.username}}:</span> {{message.text}}</p>
+            </div>
+            <form ng-submit="sendMessage()" class="send-message-form">
+                <input ng-model="message" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
             </form>
         </div>
 
-        <h4>Talk about the game here</h4>
-        <div class="chatbox col-xs-12">
-            <p ng-repeat="message in messages"><span id="chat-username">{{message.username}}:</span> {{message.text}}</p>
-        </div>
-        <form ng-submit="sendMessage()" class="send-message-form">
-            <input ng-model="message" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
-        </form>
+<div ng-show="discussionOpen" class="discussionChatroom col-md-3 col-xs-12">
+    <div class="discussion-chatroom-banner">
+        <p>Current discussion: {{currentDiscussion}}</p>
+        <button ng-click="closeDiscussion()" id="close-discussion-button"><span aria-hidden="true" class="icon_close"></span></button>
     </div>
 
-<div ng-show="discussionOpen" class="discussionChatroom col-md-3 col-xs-12">
-    <button ng-click="closeDiscussion()" id="close-discussion-button"><span aria-hidden="true" class="icon_close"></span></button>
-    <p style="color: red;">Current discussion: {{currentDiscussion}}</p>
+
     <div class="discussionChatbox col-xs-12">
         <p ng-repeat="message in discussionMessages">{{message.username}}: {{message.text}}</p>
     </div>

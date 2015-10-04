@@ -16,7 +16,7 @@
 
         <h4>Talk about the game here</h4>
         <div class="chatbox col-xs-12">
-            <p ng-repeat="message in messages"><span id="chat-username">{{message.username}}: </span> {{message.text}}</p>
+            <p ng-repeat="message in messages"><span id="chat-username">{{message.username}}:</span> {{message.text}}</p>
         </div>
         <form ng-submit="sendMessage()" class="send-message-form">
             <input ng-model="message" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>

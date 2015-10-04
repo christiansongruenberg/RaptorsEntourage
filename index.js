@@ -56,7 +56,8 @@ var pusher = new Pusher({
 
 var discussionSchema = new mongoose.Schema({
     discussion : String,
-    created_at: Date
+    created_at: Date,
+    population: Integer
 }, {collection: 'discussions'});
 
 var DiscussionModel = mongoose.model('discussion', discussionSchema);
@@ -84,12 +85,24 @@ var storeMessage = function(message){
     });
 };
 
+io.on("", function(socket){
+
+});
+
 io.on("connection", function(socket){
     console.log("connected...");
 
     socket.on('messageSent', function(message){
         storeMessage(message);
         io.emit('messageSent', message);
+    });
+
+    socket.on('newUserAdded', function(discussion){
+
+    });
+
+    socket.on("disconnect", function(){
+       console.log("disconnected");
     });
 
     socket.on('createDiscussion', function(topic, username){
@@ -172,13 +185,13 @@ function upsertTweet(tweet){
     });
 });*/
 
-setInterval(function(){
+/*setInterval(function(){
     require('./tests/articlePolling.js')();
 }, 20000);
 
 setInterval(function () {
     require('./tests/instagramPolling.js')();
-}, 30000);
+}, 30000);*/
 
 
 app.set(function(req,res,next){

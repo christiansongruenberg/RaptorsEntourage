@@ -357,6 +357,14 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         $scope.newUser = false;
     };
 
+    $scope.newUserAdded = function(discussion){
+        socketService.socket.emit('userAdded', discussion);
+    };
+
+    $scope.userLeave= function(discussion){
+        socketService.socket.emit('userLeft', discussion);
+    };
+
     $scope.discussionOpen = false;
     $scope.discussions = [];
     $scope.messages = [];
@@ -381,6 +389,7 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         socketService.socket.removeListener('discussionCreated');
         socketService.socket.removeListener('messageSent');
         socketService.socket.removeListener('discussionMessage');
+        socketService.socket.emit('disconnect');
     });
 
     socketService.socket.on('discussionCreated', function (discussion, username) {
@@ -421,6 +430,7 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     $log.log(socketService.username);
     if(!socketService.username) {
         $scope.newUser = true;
+        angular.element($('.init-input')).focus();
     } else{
         $scope.username = socketService.username;
     }

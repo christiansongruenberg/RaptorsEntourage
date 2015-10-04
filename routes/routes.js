@@ -15,7 +15,6 @@ exports.routerFunction = function(DiscussionModel, MessageModel){
     router.get('/getTweets', function(req,res,next){
         TweetModel.find({},null,{limit:amountOfTweets, sort: {created_at: -1}}, function(err, tweets){
             res.json({"tweets": tweets});
-            console.log(tweets[0]);
         });
     });
 

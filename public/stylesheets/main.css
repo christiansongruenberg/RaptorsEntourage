@@ -3,24 +3,17 @@
 }
 
 body {
-
-
     /*RED */
     /*/!*background-color: #B41F2B;*!/*/
 
-    /*background: #000000 url("../images/shattered.png") repeat;*/
-
     background: #e6e6e6 url(http://www.transparenttextures.com/patterns/maze-white.png) repeat;
 
-    /*background: #7d7d7d url(http://www.transparenttextures.com/patterns/maze-white.png) repeat;*/
-
     /* PURPLE */
-/*        background-color: #34186d;*/
+    /*background-color: #34186d;*/
 }
 a:hover {
     cursor: pointer;
     text-decoration: underline;
-
 }
 
 #tweets {
@@ -503,5 +496,6 @@ a:hover {
 #chat-username {
     font-weight: bold;
     color: #34186d;
+    background-color: white;
     text-transform: uppercase;
 }

@@ -352,6 +352,7 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
 rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService','$compile','$rootScope','$timeout', '$window',
     function($scope, $pusher, $log, $http, socketService, $compile, $rootScope, $timeout, $window){
 
+    socketService.socket.emit('joinMainRoom');
     $scope.initUsername = function(){
         $scope.username = $scope.initUsernameInput;
         $log.log($scope.initUsernameInput);
@@ -362,6 +363,7 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     $scope.discussions = [];
     $scope.messages = [];
     $scope.discussionMessages = [];
+    $scope.mainPopulation = '';
 
     $http.get('/getDiscussions').success(function(data){
         $scope.discussions = data.discussions;
@@ -369,15 +371,18 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
 
     $http.get('/getMainChat').success(function(data){
         $scope.messages = data;
-
         $timeout(function(){
             var bottomScroll = angular.element($('.chatbox'))[0].scrollHeight - angular.element($('.chatbox'))[0].offsetHeight;
             angular.element($('.chatbox')).scrollTop(bottomScroll);
         }, 100)
-
     });
 
-    socketService.socket.emit('joinMainRoom');
+    $timeout(function(){
+        $http.get('/getMainPopulation').success(function(data){
+            $log.log(data);
+            $scope.mainPopulation = data.population;
+        });
+    }, 2000)
 
     $scope.$on("$routeChangeStart", function(){
         $log.log('route change called');

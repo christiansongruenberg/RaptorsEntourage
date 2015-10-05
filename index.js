@@ -109,7 +109,6 @@ io.on("connection", function(socket){
         })
     });
 
-
     socket.on('createDiscussion', function(topic, username){
         console.log(topic + ': created by ' + username );
         var newDiscussion = new DiscussionModel({
@@ -128,9 +127,7 @@ io.on("connection", function(socket){
 
     socket.on('joinMainRoom', function(){
         MainPopulationModel.findOne({chat: 'main'}, null, {}, function(err, population){
-            console.log(population);
             var populationIncrement = population.population + 1;
-            console.log(populationIncrement);
             MainPopulationModel.findOneAndUpdate({chat: 'main'}, {population: populationIncrement},{}, function(err,doc){
                 if (err) throw err;
                 console.log(doc);
@@ -238,7 +235,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
-app.use(router.routerFunction(DiscussionModel, MessageModel));
+app.use(router.routerFunction(DiscussionModel, MessageModel, MainPopulationModel));
 
 http.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));

@@ -4,7 +4,7 @@ var router = require('express').Router(),
     InstagramModel = require('../models/instagram_model.js'),
     RssModel = require('../models/rssarticles_model.js');
 
-exports.routerFunction = function(DiscussionModel, MessageModel){
+exports.routerFunction = function(DiscussionModel, MessageModel, MainPopulationModel){
 
     router.get('/', function(req,res,next){
         res.render("index", {title: "Raptors Entourage"});
@@ -98,6 +98,12 @@ exports.routerFunction = function(DiscussionModel, MessageModel){
         console.log('get discussion chat called');
         MessageModel.find({discussion: req.params.discussion}, null, {sort: {created_at: 1}}, function(err, messages){
             res.json(messages);
+        })
+    });
+
+    router.get('/getMainPopulation', function(req,res,next){
+        MainPopulationModel.findOne({chat: 'main'}, null,{}, function(err, population){
+            res.json(population);
         })
     });
 

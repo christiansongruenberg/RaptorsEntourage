@@ -352,18 +352,29 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
 rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService','$compile','$rootScope','$timeout', '$window',
     function($scope, $pusher, $log, $http, socketService, $compile, $rootScope, $timeout, $window){
 
-    socketService.socket.emit('joinMainRoom');
+    //socketService.socket.emit('joinMainRoom');
     $scope.initUsername = function(){
         $scope.username = $scope.initUsernameInput;
-        $log.log($scope.initUsernameInput);
+        $scope.newUser = false;
         $scope.newUser = false;
     };
-
+    $scope.inChatController = true;
     $scope.discussionOpen = false;
     $scope.discussions = [];
     $scope.messages = [];
     $scope.discussionMessages = [];
     $scope.mainPopulation = '';
+
+    /*socketService.socket.on('joined room', function(population){
+        $log.log(population);
+        $scope.mainPopulation = population;
+        $scope.$apply();
+    });*/
+
+    /*socketService.socket.on('userAddedToRoom', function(discussion){
+        $log.log(discussion);
+        $scope.$apply();
+    });*/
 
     $http.get('/getDiscussions').success(function(data){
         $scope.discussions = data.discussions;
@@ -374,54 +385,65 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         $timeout(function(){
             var bottomScroll = angular.element($('.chatbox'))[0].scrollHeight - angular.element($('.chatbox'))[0].offsetHeight;
             angular.element($('.chatbox')).scrollTop(bottomScroll);
+            angular.element($('.mainMessage')).linkify();
         }, 100)
     });
 
-    $timeout(function(){
-        $http.get('/getMainPopulation').success(function(data){
-            $log.log(data);
-            $scope.mainPopulation = data.population;
-        });
-    }, 2000)
+    /*$timeout(function(){
+         $http.get('/getMainPopulation').success(function(data){
+         $log.log(data);
+         $scope.mainPopulation = data.population;
+         });
+         }, 2000);*/
 
     $scope.$on("$routeChangeStart", function(){
-        $log.log('route change called');
         socketService.socket.removeListener('discussionCreated');
         socketService.socket.removeListener('messageSent');
         socketService.socket.removeListener('discussionMessage');
+        socketService.socket.removeListener('joined room');
         if($scope.currentDiscussion) {
             socketService.socket.emit('leaveRoom', $scope.currentDiscussion);
         }
-        socketService.socket.emit('leaveMainRoom');
+        //socketService.socket.emit('leaveMainRoom');
+        $scope.inChatController = false;
     });
 
-    $window.onbeforeunload = function(evt){
-        if($scope.currentDiscussion) {
-            socketService.socket.emit('leaveRoom', $scope.currentDiscussion);
+
+
+    /*$window.onbeforeunload = function(evt){
+        if($scope.inChatController) {
+            if ($scope.currentDiscussion) {
+                socketService.socket.emit('leaveRoom', $scope.currentDiscussion);
+            }
+            socketService.socket.emit('leaveMainRoom');
         }
-        socketService.socket.emit('leaveMainRoom');
-    };
+    };*/
 
     socketService.socket.on('discussionCreated', function (discussion, username) {
-        $scope.discussions.push(discussion);
-        $log.log($scope.discussions);
-        angular.element($('.chat-messages')).append($compile('<a ng-click="joinDiscussion(\'' + discussion.discussion + '\')">' + username + ' started the discussion: ' + discussion.discussion + '</a><br/>')($scope));
+        $scope.discussions.unshift(discussion);
+        var discussionMessage = {
+            text: discussion.discussion,
+            isDiscussion: true
+        };
+        $scope.messages.push(discussionMessage);;
         $scope.$apply();
     });
 
     socketService.socket.on('messageSent', function(message){
-        $log.log(message.text);
         $scope.messages.push(message);
+
         var scrollTop = angular.element($('.chatbox')).scrollTop();
         var bottomScroll = angular.element($('.chatbox'))[0].scrollHeight - angular.element($('.chatbox'))[0].offsetHeight;
 
         $scope.$apply();
-        $log.log(scrollTop +' : '+ bottomScroll);
+
         if(scrollTop <= bottomScroll && scrollTop >= bottomScroll - bottomScroll*0.05) {
             angular.element($('.chatbox')).animate({
                 scrollTop: bottomScroll + 50
             }, 100);
         }
+
+        angular.element($('.mainMessage')).linkify();
     });
 
     socketService.socket.on('discussionMessage', function(message){
@@ -430,14 +452,14 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
         var bottomScroll = angular.element($('.discussionChatbox'))[0].scrollHeight - angular.element($('.chatbox'))[0].offsetHeight;
 
         $scope.$apply();
-        $log.log(scrollTop +' : '+ bottomScroll);
+
         if(scrollTop <= bottomScroll && scrollTop >= bottomScroll - bottomScroll*0.05) {
             angular.element($('.discussionChatbox')).animate({
                 scrollTop: bottomScroll + 50
             }, 100);
         }
+        angular.element($('.discussionMessage')).linkify();
     });
-    $log.log(socketService.username);
     if(!socketService.username) {
         $scope.newUser = true;
         angular.element($('.init-input')).focus();
@@ -474,18 +496,29 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
     };
 
     $scope.sendMessage = function(){
-        //$http.post('/messageSent',{message: $scope.message, username: $scope.username});
-        socketService.socket.emit('messageSent', {text: $scope.message, username: $scope.username, discussion: 'main_chat'});
-        $scope.message = '';
+        if($scope.username) {
+            socketService.socket.emit('messageSent', {
+                text: $scope.message,
+                username: $scope.username,
+                discussion: 'main_chat'
+            });
+            $scope.message = '';
+        }
     };
 
     $scope.sendDiscussionMessage = function(){
-        socketService.socket.emit('sendDiscussionMessage', {text: $scope.discussionMessage, username: $scope.username, discussion: $scope.currentDiscussion});
-        $scope.discussionMessage = '';
+        if($scope.username) {
+            socketService.socket.emit('sendDiscussionMessage', {
+                text: $scope.discussionMessage,
+                username: $scope.username,
+                discussion: $scope.currentDiscussion
+            });
+            $scope.discussionMessage = '';
+        }
     };
 
     $scope.newUserAdded = function(discussion){
-        $log.log("newUserAdded called");
+
         socketService.socket.emit('userAdded', discussion);
     };
 
@@ -507,9 +540,9 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
             $timeout(function(){
                 var bottomScroll = angular.element($('.discussionChatbox'))[0].scrollHeight - angular.element($('.discussionChatbox'))[0].offsetHeight;
                 angular.element($('.discussionChatbox')).scrollTop(bottomScroll);
+                angular.element($('.discussionMessage')).linkify();
             }, 100)
         });
-        $log.log('joined ' + discussion);
         angular.element($('.chatroom')).addClass('col-md-5').removeClass('col-md-8');
         $scope.discussionOpen = true;
 

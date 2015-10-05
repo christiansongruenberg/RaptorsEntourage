@@ -126,31 +126,28 @@ io.on("connection", function(socket){
     });
 
     socket.on('joinMainRoom', function(){
-        MainPopulationModel.findOne({chat: 'main'}, null, {}, function(err, population){
-            var populationIncrement = population.population + 1;
-            MainPopulationModel.findOneAndUpdate({chat: 'main'}, {population: populationIncrement},{}, function(err,doc){
-                if (err) throw err;
-                console.log(doc);
-            });
-        })
+        MainPopulationModel.update({chat:'main'},{$inc:{population: 1}},{}, function(err,doc){
+            console.log(doc);
+        });
     });
+
     socket.on('leaveMainRoom', function(){
-        MainPopulationModel.findOne({chat: 'main'}, null, {}, function(err, population){
-            var populationDecrement = population.population - 1;
-            MainPopulationModel.findOneAndUpdate({chat: 'main'}, {population: populationDecrement},{}, function(err,doc){
-                if (err) throw err;
-            });
-        })
+        MainPopulationModel.update({chat:'main'},{$inc:{population: -1}},{}, function(err,doc){
+            console.log(doc);
+        });
     });
+
     socket.on('joinRoom', function(discussion){
         this.join(discussion);
         console.log('Join Discussion: ' + discussion);
+        io.emit('userAddedToRoom', discussion);
     });
 
     socket.on('leaveRoom', function(discussion){
         this.leave(discussion);
         DiscussionModel.findOne({discussion: discussion}, null, {}, function(err, discussion){
             var populationDecrement = discussion.population - 1;
+            console.log('leaving discussion: '+discussion);
             DiscussionModel.findOneAndUpdate({discussion: discussion.discussion}, {population: populationDecrement},{}, function(err,doc){
                 if (err) throw err;
             });

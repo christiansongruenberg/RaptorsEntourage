@@ -84,7 +84,7 @@ exports.routerFunction = function(DiscussionModel, MessageModel, MainPopulationM
     });
 
     router.get('/getDiscussions', function(req,res,next){
-        DiscussionModel.find({},null, {sort: {created_at: 1}},function(err, discussions){
+        DiscussionModel.find({},null, {sort: {created_at: -1}},function(err, discussions){
             res.json({discussions: discussions});
         });
     });

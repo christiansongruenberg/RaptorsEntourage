@@ -5,18 +5,23 @@
     </div>
         <div class="chatroom col-md-8 col-xs-12">
             <div ng-show="newUser" class="username-popup">
-                <form  ng-submit="initUsername()" id="init-username-form">
+                <form name="initForm" ng-submit="initForm.$valid && initUsername()" id="init-username-form">
                     <label id="init-username-label"> Choose a Username</label>
                     <div>
                         <p>></p>
-                        <input ng-model="initUsernameInput" id="init-input" type="text"/>
+                        <input name="usernameInput" ng-minlength="3" ng-maxlength="16" name="username" ng-model="initUsernameInput" id="init-input" type="text" required/>
+                        <div ng-show="initForm.usernameInput.$dirty && initForm.usernameInput.$error.minlength">Must be 3 or characters</div>
+                        <div ng-show="initForm.usernameInput.$dirty && initForm.usernameInput.$error.maxlength">Must be 16 or less characters</div>
                     </div>
                 </form>
             </div>
 
-            <div class="chatroom-banner"><span>Raptors vs. Clippers!<br/>{{mainPopulation}} fans here</span></div>
+            <div class="chatroom-banner"><span>Raptors vs. Warriors!</span></div>
             <div class="chatbox col-xs-12">
-                <p ng-repeat="message in messages"><span class="chat-username">{{message.username}}:</span> {{message.text}}</p>
+                <p ng-repeat="message in messages">
+                    <span ng-show="!message.isDiscussion" class="mainMessage"><span class="chat-username">{{message.username}}:</span> {{message.text}}</span>
+                    <span ng-show="message.isDiscussion"><a ng-click="joinDiscussion(message.text)"> Join the Discussion: {{message.text}}</a></span>
+                </p>
             </div>
             <form ng-submit="sendMessage()" class="send-message-form">
                 <input ng-model="message" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
@@ -25,11 +30,11 @@
 
 <div ng-show="discussionOpen" class="discussionChatroom col-md-3 col-xs-12">
     <div class="discussion-chatroom-banner">
-        <span>Current discussion:{{currentDiscussion}}</span>
+        <span>Current discussion: {{currentDiscussion}}</span>
         <button ng-click="closeDiscussion()" id="close-discussion-button"><span aria-hidden="true" class="icon_close"></span></button>
     </div>
     <div class="discussionChatbox col-xs-12">
-        <p ng-repeat="message in discussionMessages"><span class="chat-username">{{message.username}}:</span> {{message.text}}</p>
+        <p ng-repeat="message in discussionMessages" class="discussionMessage"><span class="chat-username">{{message.username}}:</span> {{message.text}}</p>
     </div>
     <form ng-submit="sendDiscussionMessage()" class="send-message-form">
         <input ng-model="discussionMessage" class="col-xs-12 message-input" placeholder="Type message here..." type="text"/>
@@ -41,12 +46,18 @@
         <input type="text" id="username-input" placeholder="Username" ng-model="username"/></>
 
     <div class="discussion-panel">
+        <form name="discussionForm">
         <label class="chat-commands-header"><span aria-hidden="true" class="icon_pencil icon"></span >Create a Discussion</label>
-        <input class="col-md-12" type="text" id="dicussion-input" placeholder="That awesome dunk!" ng-model="discussionTopic"/>
-            <a ng-click="createDiscussion()" class="twitter-button btn btn-default nav col-md-12" id="start-discussion">Create</a>
+        <input ng-minlength="5" ng-maxlength="50" name="discussionTopic" class="col-md-12" type="text" id="dicussion-input" placeholder="That awesome dunk!" ng-model="discussionTopic" required/>
+            <div ng-show="discussionForm.discussionTopic.$dirty && discussionForm.discussionTopic.$error.minlength">Must be 5 or characters</div>
+            <div ng-show="discussionForm.discussionTopic.$dirty && discussionForm.discussionTopic.$error.maxlength">Must be 50 or less characters</div>
+            <a ng-click="discussionForm.$valid && createDiscussion()" class="twitter-button btn btn-default nav col-md-12" id="start-discussion">Create</a>
+        </form>
         <label class="chat-commands-header"><span aria-hidden="true" class="icon_chat icon"></span> Join a Discussion</label>
-        <div ng-repeat="discussion in discussions">
-             <button class="twitter-button btn btn-default nav col-md-12 discussion-button" ng-click="joinDiscussion(discussion.discussion)" style="white-space: normal"><span>{{discussion.population}}</span> <span>{{discussion.discussion}}</span></button>
+        <div id="discussionPanel">
+            <div ng-repeat="discussion in discussions">
+                 <button class="twitter-button btn btn-default nav col-md-12 discussion-button" ng-click="joinDiscussion(discussion.discussion)" style="white-space: normal"><span>{{discussion.discussion}}</span></button>
+            </div>
         </div>
     </div>
 </div>

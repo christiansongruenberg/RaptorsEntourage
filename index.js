@@ -85,6 +85,12 @@ var storeMessage = function(message){
     });
 };
 
+var mainPopulationSchema = new mongoose.Schema({
+    population: Number
+}, {collection: 'mainPopulation'});
+
+var MainPopulationModel = mongoose.model('mainPopulation', mainPopulationSchema);
+
 io.on("connection", function(socket){
     console.log("connected...");
 
@@ -120,13 +126,38 @@ io.on("connection", function(socket){
         io.emit('discussionCreated', newDiscussion, username);
     });
 
+    socket.on('joinMainRoom', function(){
+        MainPopulationModel.findOne({chat: 'main'}, null, {}, function(err, population){
+            console.log(population);
+            var populationIncrement = population.population + 1;
+            console.log(populationIncrement);
+            MainPopulationModel.findOneAndUpdate({chat: 'main'}, {population: populationIncrement},{}, function(err,doc){
+                if (err) throw err;
+                console.log(doc);
+            });
+        })
+    });
+    socket.on('leaveMainRoom', function(){
+        MainPopulationModel.findOne({chat: 'main'}, null, {}, function(err, population){
+            var populationDecrement = population.population - 1;
+            MainPopulationModel.findOneAndUpdate({chat: 'main'}, {population: populationDecrement},{}, function(err,doc){
+                if (err) throw err;
+            });
+        })
+    });
     socket.on('joinRoom', function(discussion){
         this.join(discussion);
         console.log('Join Discussion: ' + discussion);
     });
 
     socket.on('leaveRoom', function(discussion){
-       this.leave(discussion);
+        this.leave(discussion);
+        DiscussionModel.findOne({discussion: discussion}, null, {}, function(err, discussion){
+            var populationDecrement = discussion.population - 1;
+            DiscussionModel.findOneAndUpdate({discussion: discussion.discussion}, {population: populationDecrement},{}, function(err,doc){
+                if (err) throw err;
+            });
+        })
     });
 
     socket.on('sendDiscussionMessage', function(message){

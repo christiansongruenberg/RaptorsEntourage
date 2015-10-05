@@ -349,14 +349,14 @@ rapsApp.service('socketService', ['$pusher','$log', function($pusher, $log) {
 
 }]);
 
-rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService','$compile','$rootScope','$timeout', function($scope, $pusher, $log, $http, socketService, $compile, $rootScope, $timeout){
+rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketService','$compile','$rootScope','$timeout', '$window',
+    function($scope, $pusher, $log, $http, socketService, $compile, $rootScope, $timeout, $window){
 
     $scope.initUsername = function(){
         $scope.username = $scope.initUsernameInput;
         $log.log($scope.initUsernameInput);
         $scope.newUser = false;
     };
-
 
     $scope.discussionOpen = false;
     $scope.discussions = [];
@@ -377,13 +377,25 @@ rapsApp.controller('chatController', ['$scope','$pusher','$log','$http','socketS
 
     });
 
+    socketService.socket.emit('joinMainRoom');
+
     $scope.$on("$routeChangeStart", function(){
         $log.log('route change called');
         socketService.socket.removeListener('discussionCreated');
         socketService.socket.removeListener('messageSent');
         socketService.socket.removeListener('discussionMessage');
-        socketService.socket.emit('disconnect');
+        if($scope.currentDiscussion) {
+            socketService.socket.emit('leaveRoom', $scope.currentDiscussion);
+        }
+        socketService.socket.emit('leaveMainRoom');
     });
+
+    $window.onbeforeunload = function(evt){
+        if($scope.currentDiscussion) {
+            socketService.socket.emit('leaveRoom', $scope.currentDiscussion);
+        }
+        socketService.socket.emit('leaveMainRoom');
+    };
 
     socketService.socket.on('discussionCreated', function (discussion, username) {
         $scope.discussions.push(discussion);

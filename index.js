@@ -210,13 +210,13 @@ function upsertTweet(tweet){
     });
 });*/
 
-/*setInterval(function(){
+setInterval(function(){
     require('./tests/articlePolling.js')();
 }, 20000);
 
 setInterval(function () {
     require('./tests/instagramPolling.js')();
-}, 30000);*/
+}, 30000);
 
 
 app.set(function(req,res,next){

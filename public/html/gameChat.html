@@ -3,6 +3,8 @@
         <nav-buttons></nav-buttons>
         <br/>
     </div>
+
+
         <div class="chatroom col-md-8 col-xs-12">
             <div ng-show="newUser" class="username-popup">
                 <form name="initForm" ng-submit="initForm.$valid && initUsername()" id="init-username-form">
@@ -30,7 +32,8 @@
 
 <div ng-show="discussionOpen" class="discussionChatroom col-md-3 col-xs-12">
     <div class="discussion-chatroom-banner">
-        <span>Current discussion: {{currentDiscussion}}</span>
+        <span>Current discussion:
+            <br/>{{currentDiscussion}}</span>
         <button ng-click="closeDiscussion()" id="close-discussion-button"><span aria-hidden="true" class="icon_close"></span></button>
     </div>
     <div class="discussionChatbox col-xs-12">
@@ -42,13 +45,15 @@
 </div>
 
 <div class="commands col-md-2 col-xs-12">
-    <span class="chat-commands-header"><span aria-hidden="true" class="icon_profile icon"></span>Username</span>
-        <input type="text" id="username-input" placeholder="Username" ng-model="username"/></>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1"><span aria-hidden="true" class="icon_profile icon"></span></span>
+        <input type="text" class="form-control" id="username-input" placeholder="Username" aria-describedby="basic-addon1" ng-model="username"/>
+    </div>
 
     <div class="discussion-panel">
         <form name="discussionForm">
-        <label class="chat-commands-header"><span aria-hidden="true" class="icon_pencil icon"></span >Create a Discussion</label>
-        <input ng-minlength="5" ng-maxlength="50" name="discussionTopic" class="col-md-12" type="text" id="dicussion-input" placeholder="That awesome dunk!" ng-model="discussionTopic" required/>
+        <label class="chat-commands-header"><span aria-hidden="true" class="icon_pencil icon"></span>Create a Discussion</label>
+        <input ng-minlength="5" ng-maxlength="50" name="discussionTopic" class="col-md-12" type="text" id="discussion-input" placeholder="That awesome dunk!" ng-model="discussionTopic" required/>
             <div ng-show="discussionForm.discussionTopic.$dirty && discussionForm.discussionTopic.$error.minlength">Must be 5 or characters</div>
             <div ng-show="discussionForm.discussionTopic.$dirty && discussionForm.discussionTopic.$error.maxlength">Must be 50 or less characters</div>
             <a ng-click="discussionForm.$valid && createDiscussion()" class="twitter-button btn btn-default nav col-md-12" id="start-discussion">Create</a>

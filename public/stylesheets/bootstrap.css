@@ -1084,7 +1084,6 @@ html {
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
-  line-height: 1.42857143;
   color: #333;
   background-color: #fff;
 }
@@ -3726,7 +3725,7 @@ tbody.collapse.in {
 .btn-toolbar .btn,
 .btn-toolbar .btn-group,
 .btn-toolbar .input-group {
-  float: left;
+  /*float: none;*/
 }
 .btn-toolbar > .btn,
 .btn-toolbar > .btn-group,
@@ -3875,7 +3874,7 @@ tbody.collapse.in {
 .input-group .form-control {
   position: relative;
   z-index: 2;
-  float: left;
+  /*float: left;*/
   width: 100%;
   margin-bottom: 0;
 }

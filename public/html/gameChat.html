@@ -45,6 +45,7 @@
 </div>
 
 <div class="commands col-md-2 col-xs-12">
+    <label class="chat-commands-header">Username</label>
     <div class="input-group">
         <span class="input-group-addon" id="basic-addon1"><span aria-hidden="true" class="icon_profile icon"></span></span>
         <input type="text" class="form-control" id="username-input" placeholder="Username" aria-describedby="basic-addon1" ng-model="username"/>
@@ -52,8 +53,13 @@
 
     <div class="discussion-panel">
         <form name="discussionForm">
-        <label class="chat-commands-header"><span aria-hidden="true" class="icon_pencil icon"></span>Create a Discussion</label>
-        <input ng-minlength="5" ng-maxlength="50" name="discussionTopic" class="col-md-12" type="text" id="discussion-input" placeholder="That awesome dunk!" ng-model="discussionTopic" required/>
+        <br/><label class="chat-commands-header">Create a Discussion</label>
+
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span aria-hidden="true" class="icon_pencil icon"></span></span>
+                <input ng-minlength="5" ng-maxlength="50" name="discussionTopic" type="text" class="form-control" id="discussion-input" placeholder="That dunk!" aria-describedby="basic-addon1" ng-model="discussionTopic" required/>
+            </div>
+
             <div ng-show="discussionForm.discussionTopic.$dirty && discussionForm.discussionTopic.$error.minlength">Must be 5 or characters</div>
             <div ng-show="discussionForm.discussionTopic.$dirty && discussionForm.discussionTopic.$error.maxlength">Must be 50 or less characters</div>
             <a ng-click="discussionForm.$valid && createDiscussion()" class="twitter-button btn btn-default nav col-md-12" id="start-discussion">Create</a>
